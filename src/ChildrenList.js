@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from './FirebaseConfig';
-import { collection, doc, updateDoc } from 'firebase/firestore';
+import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
+import {AiFillDelete,AiFillEdit} from 'react-icons/ai'
 
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
@@ -63,7 +64,19 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
   
     handleClose();
   };
+
   
+  const deleteFeildFunction = async (doc) => {
+    // Construct the document reference using the correct path
+    const docPath = `${path}/${doc.name}`;
+  
+    try {
+      // Delete the document using deleteDoc function
+      await deleteDoc(doc(db, docPath));
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
+  }
   
 
   return (
@@ -83,12 +96,13 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
             />
             <button type="submit">Submit</button>
           </form>
+          <button>delete</button>
         </Box>
       </Modal>
       {docs?.map((doc, index) => {
         return (
-          <td key={doc.id} onClick={() => editDataFunction(doc)}>
-            <span style={{ color: 'red' }}>{index + 1}=== </span> {doc.name}
+          <td key={doc.id} >
+            <span style={{display:'flex',alignItems:'center',gap:'8px'}} ><AiFillDelete style={{ color: 'red' }} onClick={()=>deleteFeildFunction(doc)}/><AiFillEdit onClick={() => editDataFunction(doc)}/> {doc.name}</span> 
           </td>
         );
       })}

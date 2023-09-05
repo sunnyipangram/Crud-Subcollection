@@ -25,6 +25,7 @@ e.target.reset()
     <form action="" onSubmit={handleSubmitTask}>
         <input type="text" ref={name} />
         <button type='Submit'>Add</button>
+        
     </form>
   
   )
