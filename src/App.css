@@ -36,3 +36,13 @@
     transform: rotate(360deg);
   }
 }
+
+table{
+  width: 100%;
+}
+table table{
+  height: 100%;
+}
+table tr:nth-child(even){
+  background-color: #e7e7e7;
+}
