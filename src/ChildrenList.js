@@ -66,18 +66,18 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
   };
 
   
-  const deleteFeildFunction = async (doc) => {
-    // Construct the document reference using the correct path
-    const docPath = `${path}/${doc.name}`;
-  
-    try {
-      // Delete the document using deleteDoc function
-      await deleteDoc(doc(db, docPath));
-    } catch (error) {
-      console.error('Error deleting document: ', error);
-    }
+ const deleteFeildFunction = async (doc) => {
+  // Construct the document reference using the correct path
+  const docPath = `${path}/${doc.name}`;
+
+  try {
+    // Delete the document using deleteDoc function
+    await deleteDoc(doc(db, docPath));
+  } catch (error) {
+    console.error('Error deleting document: ', error);
   }
-  
+}
+
 
   return (
     <>
