@@ -11,8 +11,9 @@ const name=useRef()
 e.preventDefault();
 
 //API call
-const docRef=doc(db,path,name.current.value)
-const uniqueId = uuidv4(); // Generate a unique string ID
+const uniqueId = uuidv4();
+const docRef=doc(db,path,uniqueId)
+ // Generate a unique string ID
 await setDoc(docRef,{
     name:name.current.value,
     id:uniqueId

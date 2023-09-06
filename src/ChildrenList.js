@@ -45,17 +45,17 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
   const submitEditedData = async (e) => {
     e.preventDefault();
   
-    // Construct the document reference using the correct path
-    const docPath = `${path}/${Currentname}`;
+
+    const docPath = `${path}/${DocIdToEdit}`;
   
-    // Use the updateDoc function to update the specific field
+  
     const docRef = doc(db, docPath);
   
-    // Define the field you want to update and its new value
-    const fieldToUpdate = 'name'; // Replace with the actual field name
-    const newValue = CurrentValue; // Replace with the new value you want to set
+    
+    const fieldToUpdate = 'name';
+    const newValue = CurrentValue; 
   
-    // Create an object with the field to update
+   
     const updates = {};
     updates[fieldToUpdate] = newValue;
   
@@ -66,17 +66,19 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
   };
 
   
- const deleteFeildFunction = async (doc) => {
-  // Construct the document reference using the correct path
-  const docPath = `${path}/${doc.name}`;
-
-  try {
-    // Delete the document using deleteDoc function
-    await deleteDoc(doc(db, docPath));
-  } catch (error) {
-    console.error('Error deleting document: ', error);
-  }
-}
+  const deleteFeildFunction = async (dock) => {
+    // Construct the document reference using the correct path
+    const docPath = `${path}/${dock.id}`;
+    console.log( `${path}/${dock.id}`)
+  
+    try {
+      // Delete the document using deleteDoc function
+      await deleteDoc(doc(db, docPath));
+      handleClose(); // Close the modal after successful deletion
+    } catch (error) {
+      console.error('Error deleting document: ', error);
+    }
+  };
 
 
   return (
