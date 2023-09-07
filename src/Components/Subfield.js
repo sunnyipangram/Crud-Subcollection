@@ -1,7 +1,7 @@
 // Subfield.js
 import React, { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from './FirebaseConfig';
+import { db } from '../FirebaseConfig';
 
 const Subfield = ({ item, onClose }) => {
   const [subfieldName, setSubfieldName] = useState('');

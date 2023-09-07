@@ -1,5 +1,5 @@
 .App {
-  text-align: center;
+  
 }
 
 .App-logo {
@@ -11,6 +11,10 @@
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
   }
+}
+p {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
 }
 
 .App-header {
@@ -46,3 +50,202 @@ table table{
 table tr:nth-child(even){
   background-color: #e7e7e7;
 }
+
+
+
+
+
+
+
+
+/* styles.css */
+
+/* Styling for user avatar */
+.user-avatar {
+  width: 50px;
+  border-radius: 50%;
+}
+
+/* Styling for custom card */
+.custom-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  margin: 10px;
+  padding: 10px;
+}
+
+/* Styling for user info section */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+/* Styling for user details */
+.user-details {
+  margin-left: 10px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Styling for timestamp */
+.timestamp {
+  font-size: 13px;
+  color: #888;
+  margin-bottom: 6px;
+}
+
+/* Styling for post title */
+.post-title {
+  font-size: 18px;
+  font-weight: 500;
+  font-family: math;
+}
+
+.post-content {
+  font-size: 14px;
+  color: #757676;
+}
+
+/* Styling for action buttons */
+.action-buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+/* Styling for comment count */
+.comment-count {
+  /* Add your comment count styles here */
+}
+
+/* Styling for share button */
+.share-btn {
+  margin-left: 10px;
+  cursor: pointer;
+  color: blue;
+}
+
+button.btn-edit {
+  background: none;
+  border: 0;
+  font-size: 20px;
+  color: #ababab;
+}
+button.btn-delete {
+  background: none;
+  border: 0;
+  font-size: 20px;
+  color: #ac6262;
+}
+
+.comment span.name {
+  color: #7e7b7b;
+  font-weight: 500;
+}
+p.comment-text {
+  color: #070707;
+  font-size: 14px;
+}
+
+form.add-comment-form {
+  display: flex;
+}
+button.add-comment-btn {
+  background: #aca3aa;
+  color: #ffffff;
+  border: 0;
+  width: 97px;
+  font-size: 20px;
+}
+input.add-comment-input {
+  border: 0;
+  /* border-bottom: 1px solid blue; */
+  outline: 0;
+  width: 100%;
+}
+
+/* AddNewPost.css */
+
+.add-post-form {
+  display: flex;
+  flex-direction: column;
+  background-color: #fff;
+  padding: 16px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 400px;
+  margin: 0 auto;
+}
+
+.add-post-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+.add-post-input,
+.add-post-textarea,
+.add-post-image-label {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.add-post-input input,
+.add-post-textarea textarea {
+  border: none;
+  flex: 1;
+  margin-left: 8px;
+  outline: none;
+  font-size: 16px;
+}
+.add-post-form input{
+  width: 100%;
+
+}
+
+.add-post-input .icon,
+.add-post-textarea .icon {
+  font-size: 24px;
+  margin-right: 8px;
+  color: #1877f2;
+}
+
+.add-post-image-label input[type="file"] {
+  display: none;
+}
+
+.add-post-image-preview {
+  max-width: 100%;
+  margin-bottom: 16px;
+}
+input.add-hastag-input {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 8px;
+  margin-bottom: 16px;
+  font-size: 16px;
+}
+
+.add-post-submit {
+  background-color: #1877f2;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 16px;
+  font-size: 16px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.add-post-submit:hover {
+  background-color: #1659a8;
+}
+

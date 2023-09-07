@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { db } from './FirebaseConfig';
+import { db } from '../FirebaseConfig';
 import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import {AiFillDelete,AiFillEdit} from 'react-icons/ai'
 
@@ -30,7 +31,7 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
 
   const handleClose = () => setOpen(false);
 
-  const query = collection(db, path);
+  const query = collection(db, 'Posts/Post/Children');
   const [docs, loading, error] = useCollectionData(query);
 
   const editDataFunction = (doc) => {
@@ -83,6 +84,7 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
 
   return (
     <>
+  
       <Modal
         open={open}
         onClose={handleClose}
@@ -101,14 +103,17 @@ const ChildrenList = ({ parentDocId, subcollectionName, path }) => {
           <button>delete</button>
         </Box>
       </Modal>
-      {docs?.map((doc, index) => {
+     
+
+      {/* {docs?.map((doc, index) => {
         return (
           <td key={doc.id} >
             <span style={{display:'flex',alignItems:'center',gap:'8px'}} ><AiFillDelete style={{ color: 'red' }} onClick={()=>deleteFeildFunction(doc)}/><AiFillEdit onClick={() => editDataFunction(doc)}/> {doc.name}</span> 
           </td>
         );
-      })}
-    </>
+      })} */}
+    
+ </>
   );
 };
 

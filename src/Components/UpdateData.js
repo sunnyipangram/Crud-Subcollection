@@ -1,7 +1,7 @@
 // UpdateData.js
 import React, { useState } from 'react';
 import { updateDoc, doc } from 'firebase/firestore';
-import { db } from './FirebaseConfig';
+import { db } from '../FirebaseConfig';
 
 const UpdateData = ({ itemId, initialName, onUpdate }) => {
   const [newName, setNewName] = useState(initialName);

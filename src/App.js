@@ -11,17 +11,22 @@
 import './App.css';
 import React,{useState} from 'react';
 import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-
+import ChildrenList from './Components/ChildrenList'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { db } from './FirebaseConfig';
+import AddUser from './Components/AddUser'
+import ShowUserData from './Components/ShowUserData'
 
-import ChildrenList from './ChildrenList';
-import AddNew from './AddNew';
-import { useEffect } from 'react';
-import AddUser from './AddUser';
-import ShowUserData from './ShowUserData';
+
+
+
+
+
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { Box, Modal } from '@mui/material';
+import AddNew from './Components/AddNew';
+import Post from './Post';
+
 
 const style = {
   position: 'absolute',
@@ -116,9 +121,12 @@ function App() {
           <button>delete</button>
         </Box>
       </Modal>
+      <AddNew/>
+     <Post/>
+     
 
-      Oparating System
-      <table>
+     
+      {/* <table>
         <tr>
           <th>OS Name</th>
           <th>OS Sub COllection</th>
@@ -127,7 +135,7 @@ function App() {
 
 
         </tr>
-        {loading ? "Loading"
+        {loading ?<h1>Loading"</h1> 
           : <>{docs?.map((doc, index) => {
             return (
               <>
@@ -158,10 +166,9 @@ function App() {
             )
           })}</>
         }
-      </table>
-      <AddNew path={'Os'} />
-      <AddUser/>
-      <ShowUserData/>
+      </table> */}
+     
+      
     </div>
   );
 }

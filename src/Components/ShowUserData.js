@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import { db } from './FirebaseConfig';
+import { db } from '../FirebaseConfig';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const ShowUserData = ({ users }) => {

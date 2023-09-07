@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { addDoc, collection } from 'firebase/firestore';
-import { db } from './FirebaseConfig';
+import { db } from '../FirebaseConfig';
 import {v4 as uuidv4}from 'uuid'
 
 const AddUser = () => {
