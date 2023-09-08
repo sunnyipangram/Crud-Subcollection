@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { db, storage } from '../FirebaseConfig';
-import { collection, addDoc, DocumentReference } from 'firebase/firestore';
+import { collection, addDoc, DocumentReference, setDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegImages, FaUpload } from 'react-icons/fa';
@@ -41,16 +41,17 @@ const AddNew = ({ path }) => {
       alert('Please provide a file');
     }
   };
-
+ 
   const handleSubmitTask = async (e) => {
     e.preventDefault();
 
     // API call
+    if(imageUrl===null){ return}
     const uniqueId = uuidv4();
-    const postsCollection = collection(db, path);
-
+   const docRef=doc(db,path,uniqueId)
+if(imageUrl===null){ return}
     try {
-      await addDoc(postsCollection, {
+      await setDoc(docRef, {
         title: title.current.value,
         detail: postDetail.current.value,
         hashTag: hashtags.current.value.split(','),
