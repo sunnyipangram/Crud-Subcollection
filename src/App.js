@@ -121,7 +121,7 @@ function App() {
           <button>delete</button>
         </Box>
       </Modal>
-      <AddNew/>
+      <AddNew path={'Posts'}/>
      <Post/>
      
 

@@ -14,10 +14,15 @@ const Post = () => {
 
   // Function to calculate the time difference in minutes
   const getTimeAgo = (timestamp) => {
+    if (!timestamp) {
+      return 'Timestamp missing';
+    }
+  
     const now = new Date();
     const postTime = new Date(timestamp.toDate()); // Convert Firestore timestamp to JavaScript Date
     const timeDiff = now - postTime;
     const minutesAgo = Math.floor(timeDiff / (1000 * 60)); // Calculate minutes
+  
     if (minutesAgo < 1) {
       return 'Less than a minute ago';
     } else if (minutesAgo === 1) {
@@ -40,6 +45,7 @@ const Post = () => {
       }
     }
   };
+  
 
   // State to track editing state
   const [editingPost, setEditingPost] = useState(null);
@@ -79,6 +85,7 @@ const Post = () => {
 
   // Function to handle deleting a post
   const handleDeletePost = async (post) => {
+    console.log(post)
     const confirmation = window.confirm('Are you sure you want to delete this post?');
     if (confirmation) {
       const postDocRef = doc(db, 'Posts', post.id);

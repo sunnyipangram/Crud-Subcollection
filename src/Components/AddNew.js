@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { db, storage } from '../FirebaseConfig';
-import { collection, addDoc } from 'firebase/firestore';
+import { collection, addDoc, DocumentReference } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegImages, FaUpload } from 'react-icons/fa';
@@ -47,7 +47,7 @@ const AddNew = ({ path }) => {
 
     // API call
     const uniqueId = uuidv4();
-    const postsCollection = collection(db, 'Posts');
+    const postsCollection = collection(db, path);
 
     try {
       await addDoc(postsCollection, {
