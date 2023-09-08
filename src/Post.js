@@ -6,12 +6,18 @@ import { doc,updateDoc,collection,deleteDoc,getDoc } from 'firebase/firestore';
 import Comments from './Components/Comments';
 import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
 import { FaCommentAlt, FaRegEdit, FaRegTrashAlt, FaShareAlt, FaTrashAlt, FaTrashRestoreAlt, FaUndo } from 'react-icons/fa';
+import { useAppContext } from './ContextApi/AppContext';
+import CommentsNumber from './Components/CommentsNumber';
+
 
 const Post = () => {
+  
   const query = collection(db, 'Posts');
   const [docs, loading, error] = useCollectionData(query);
-  console.log(docs);
 
+
+
+  
   // Function to calculate the time difference in minutes
   const getTimeAgo = (timestamp) => {
     if (!timestamp) {
@@ -101,13 +107,13 @@ const Post = () => {
         await deleteDoc(postDocRef);
 
         // Delete the image from storage
-        const storageRef = storage.refFromURL(imageUrl);
-        try {
-          await storageRef.delete();
-          console.log('Image deleted from storage');
-        } catch (error) {
-          console.error('Error deleting image from storage:', error);
-        }
+        // const storageRef = storage.refFromURL(imageUrl);
+        // try {
+        //   await storageRef.delete();
+        //   console.log('Image deleted from storage');
+        // } catch (error) {
+        //   console.error('Error deleting image from storage:', error);
+        // }
       }
     }
   };
@@ -181,12 +187,12 @@ const Post = () => {
                       </>
                     )}
                     <div className="d-flex flex-row muted-color">
-                      <span className="comment-count" ><FaCommentAlt/> comments</span>
+                      <span className="comment-count" ><CommentsNumber id={post.id}/> <FaCommentAlt/> </span>
                       <span className="ml-2 share-btn"><FaShareAlt/> Share</span>
                     </div>
                   </div>
                   <hr />
-                  <Comments id={post.id} />
+                  <Comments id={post.id}  />
                   <AddComment id={post.id} />
                 </div>
               </div>

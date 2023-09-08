@@ -33,8 +33,8 @@ const AddNew = ({ path }) => {
           // Upload complete, get the download URL
           const downloadURL = await getDownloadURL(storageRef);
          await setImageUrl(downloadURL);
-          console.log(downloadURL)
-          console.log(imageUrl)
+          // console.log(downloadURL)
+          // console.log(imageUrl)
         }
       );
     } else {
@@ -46,10 +46,10 @@ const AddNew = ({ path }) => {
     e.preventDefault();
 
     // API call
-    if(imageUrl===null){ return}
+    if(imageUrl===null){return alert('please add image') }
     const uniqueId = uuidv4();
    const docRef=doc(db,path,uniqueId)
-if(imageUrl===null){ return}
+
     try {
       await setDoc(docRef, {
         title: title.current.value,
@@ -65,6 +65,7 @@ if(imageUrl===null){ return}
       postDetail.current.value = '';
       hashtags.current.value = '';
       setImageUrl(null);
+      alert("post Successfully created")
     } catch (error) {
       console.error('Error adding document: ', error);
     }

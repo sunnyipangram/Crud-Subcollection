@@ -6,12 +6,16 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { FaHeart, FaReply, FaEllipsisH, FaEdit, FaRemoveFormat } from 'react-icons/fa'; // Import icons
 import '../Comment.css'; // Import your custom CSS file
 import { AiOutlineDelete } from 'react-icons/ai';
+import { useAppContext } from '../ContextApi/AppContext';
 
 
-const Comments = ({ id }) => {
+const Comments = ({ id,CommentCount,setCommentCount }) => {
   const query = collection(db, `Posts/${id}/Comments`);
+  
   const [docs, loading, error] = useCollectionData(query);
-  console.log(docs, 'comments');
+  // console.log(docs, 'comments');
+
+  
 
   // State to track editing state
   const [editingComment, setEditingComment] = useState(null);

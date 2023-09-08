@@ -9,36 +9,23 @@
 
 
 import './App.css';
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import ChildrenList from './Components/ChildrenList'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { db } from './FirebaseConfig';
+import { auth, db } from './FirebaseConfig';
 import AddUser from './Components/AddUser'
 import ShowUserData from './Components/ShowUserData'
+import { onAuthStateChanged } from 'firebase/auth';
+import Home from './Pages/Home';
+import Auth from './Pages/Auth';
+import { useAppContext } from './ContextApi/AppContext';
 
 
 
 
 
 
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import { Box, Modal } from '@mui/material';
-import AddNew from './Components/AddNew';
-import Post from './Post';
-
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 
 function App() {
@@ -48,8 +35,10 @@ function App() {
   const [Currentname, setCurrentname] = useState(null)
   const query = collection(db, 'Os')
   const [docs, loading, error] = useCollectionData(query)
-  console.log(docs)
+ const {User, setUser} = useAppContext(null)
 
+ console.log(User)
+ 
   const editDataFunction = (doc) => {
     setOpen(true);
     setCurrentValue(doc.name);
@@ -58,32 +47,8 @@ function App() {
     console.log(DocIdToEdit)
   };
   // const docPath = `Os/New Os/Children/${DocIdToEdit}`;
-  function handleClose(){
-    setOpen(false)
-  }
-  const submitEditedData = async (e) => {
-    e.preventDefault();
   
-
-    const docPath = `Os/${DocIdToEdit}`;
-  
-  
-    const docRef = doc(db, docPath);
-  
-    
-    const fieldToUpdate = 'name';
-    const newValue = CurrentValue; 
-  
-   
-    const updates = {};
-    updates[fieldToUpdate] = newValue;
-   
-  
-    // Use the updateDoc function to update the field
-    await updateDoc(docRef, updates);
-  
-    handleClose();
-  };
+ 
 
   
   const deleteFeildFunction = async (dock) => {
@@ -100,29 +65,12 @@ function App() {
     }
   };
   
+  
   return (
     <div className="App">
-        <Modal
-
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <Box sx={style}>
-          <form action="" onSubmit={submitEditedData}>
-            <input
-              type="text"
-              value={CurrentValue}
-              onChange={(e) => setCurrentValue(e.target.value)}
-            />
-            <button type="submit">Submit</button>
-          </form>
-          <button>delete</button>
-        </Box>
-      </Modal>
-      <AddNew path={'Posts'}/>
-     <Post/>
+      {User===null? <Auth/>: <Home/>}
+     
+     
      
 
      
