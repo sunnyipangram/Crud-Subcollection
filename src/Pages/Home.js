@@ -8,6 +8,9 @@ import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAppContext } from '../ContextApi/AppContext';
 import Navbar from '../Components/Navbar';
 
+
+
+
 const style = {
     position: 'absolute',
     top: '50%',
@@ -23,15 +26,18 @@ const style = {
 
 const Home = () => {
 
-    const [open, setOpen] = useState(false);
+    
     const [CurrentValue, setCurrentValue] = useState('');
     const [DocIdToEdit, setDocIdToEdit] = useState(null);
     const [Currentname, setCurrentname] = useState(null)
     const query = collection(db, 'Os')
     const [docs, loading, error] = useCollectionData(query)
-    const {setUser,handleLogout}=useAppContext()
+    const {setUser,handleLogout,open,setOpen}=useAppContext()
     function handleClose() {
         setOpen(false)
+    }
+    function handleOpen() {
+        setOpen(true)
     }
 
     
@@ -42,8 +48,17 @@ const Home = () => {
     return (
         <>
         
+         <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+      >
+        <AddNew path={'Posts'} />
+      </Modal>
+    
             <Navbar/>
-            <AddNew path={'Posts'} />
+            
             <Post />
         </>
     )

@@ -1,25 +1,25 @@
-import { collection, doc, updateDoc, deleteDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import { db } from '../FirebaseConfig';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-
-import { FaHeart, FaReply, FaEllipsisH, FaEdit, FaRemoveFormat } from 'react-icons/fa'; // Import icons
-import '../Comment.css'; // Import your custom CSS file
-import { AiOutlineDelete } from 'react-icons/ai';
+import { collection, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
+import { FaHeart, FaReply, FaEllipsisH, FaEdit, FaRemoveFormat } from 'react-icons/fa';
+import '../Comment.css';
+import { AiOutlineDelete, AiOutlineMore } from 'react-icons/ai';
 import { useAppContext } from '../ContextApi/AppContext';
+import ReplyComponent from './ReplyComponents';
 
-
-const Comments = ({ id,CommentCount,setCommentCount }) => {
-  const query = collection(db, `Posts/${id}/Comments`);
-  
+const Comments = ({ postid, CommentCount, setCommentCount }) => {
+  const query = collection(db, `Posts/${postid}/Comments`);
   const [docs, loading, error] = useCollectionData(query);
-  // console.log(docs, 'comments');
-
-  
+  const { User } = useAppContext();
 
   // State to track editing state
   const [editingComment, setEditingComment] = useState(null);
   const [newComment, setNewComment] = useState('');
+  
+  // State to track whether the reply modal is open
+  const [replyingTo, setReplyingTo] = useState(null);
+  const [replyText, setReplyText] = useState('');
 
   // Function to handle editing a comment
   const handleEditComment = (comment) => {
@@ -31,11 +31,7 @@ const Comments = ({ id,CommentCount,setCommentCount }) => {
   const handleSaveEdit = async () => {
     if (!editingComment) return;
 
-    const commentDocRef = doc(
-      db,
-      `Posts/${id}/Comments`,
-      editingComment.id
-    );
+    const commentDocRef = doc(db, `Posts/${postid}/Comments`, editingComment.id);
     await updateDoc(commentDocRef, {
       comment: newComment,
     });
@@ -55,13 +51,35 @@ const Comments = ({ id,CommentCount,setCommentCount }) => {
   const handleDeleteComment = async (comment) => {
     const confirmation = window.confirm('Are you sure you want to delete this comment?');
     if (confirmation) {
-      const commentDocRef = doc(
-        db,
-        `Posts/${id}/Comments`,
-        comment.id
-      );
+      const commentDocRef = doc(db, `Posts/${postid}/Comments`, comment.id);
       await deleteDoc(commentDocRef);
     }
+  };
+
+  // Function to handle opening the reply modal
+  const handleOpenReplyModal = (comment) => {
+    setReplyingTo(comment);
+    setReplyText('');
+  };
+
+  // Function to handle submitting a reply
+  const handleSubmitReply = async () => {
+    if (!replyingTo || !replyText) return;
+
+    const replyDocRef = collection(db, `Posts/${postid}/Comments/${replyingTo.id}/replies`);
+    
+    // Create a new reply document
+    await addDoc(replyDocRef, {
+      comment: replyText,
+      userName: User.displayName,
+      userProfile: User.photoURL,
+      userId: User.uid,
+      timestamp: new Date(),
+    });
+
+    // Close the reply modal
+    setReplyingTo(null);
+    setReplyText('');
   };
 
   return (
@@ -69,13 +87,13 @@ const Comments = ({ id,CommentCount,setCommentCount }) => {
       {docs?.map((comment) => (
         <div className="comment" key={comment.id}>
           <img
-            src="https://i.imgur.com/9AZ2QX1.jpg"
+            src={comment.userProfile}
             width={40}
             className="rounded-image"
             alt="User"
           />
           <div className="comment-content">
-            <span className="name">Daniel Frozer</span>
+            <span className="name">{comment.userName}</span>
             {editingComment === comment ? (
               <input
                 type="text"
@@ -92,20 +110,46 @@ const Comments = ({ id,CommentCount,setCommentCount }) => {
                   <button onClick={handleCancelEdit}>Cancel</button>
                 </>
               ) : (
-                <>
-                  <button onClick={() => handleEditComment(comment)}>
-                    <FaEdit /> Edit
-                  </button>
-                  <button onClick={() => handleDeleteComment(comment)}>
-                    <AiOutlineDelete /> Delete
-                  </button>
-                </>
+                User.uid === comment.userId ? (
+                  <>
+                    <button onClick={() => handleEditComment(comment)}>
+                      <FaEdit /> Edit
+                    </button>
+                    <button onClick={() => handleDeleteComment(comment)}>
+                      <AiOutlineDelete /> Delete
+                    </button>
+                    <button onClick={() => handleOpenReplyModal(comment)}>
+                      <FaReply /> Reply
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <button onClick={() => handleOpenReplyModal(comment)}>
+                      <FaReply /> Reply
+                    </button>
+                    
+                  </>
+                )
               )}
-              {/* <FaHeart /> Like
-              <FaReply /> Reply */}
-              
+
+              <div className="replying-comments">
+                
+              </div>
             </div>
+            <ReplyComponent postid={postid} commentid={comment.id}/>
           </div>
+          {/* Reply modal */}
+          {replyingTo === comment && (
+            <div className="reply-modal">
+              <textarea
+                placeholder="Write your reply..."
+                value={replyText}
+                onChange={(e) => setReplyText(e.target.value)}
+              />
+              <button onClick={handleSubmitReply}>Reply</button>
+              <button onClick={()=>setReplyingTo(null)}>Cancel</button>
+            </div>
+          )}
         </div>
       ))}
     </div>

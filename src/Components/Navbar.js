@@ -1,61 +1,78 @@
 import React from 'react'
 import { useAppContext } from '../ContextApi/AppContext'
+import '../Css/Navbar.css'
+import { FaArrowAltCircleDown, FaBell, FaFacebook, FaFacebookMessenger, FaFortAwesome, FaGamepad, FaHome, FaSearch, FaStreetView, FaTv, FaUserAlt, FaUserCog, FaUserFriends, FaViadeoSquare } from 'react-icons/fa'
+import { AiFillFileAdd, AiFillHome, AiFillNotification, AiFillPlusCircle, AiFillPlusSquare, AiOutlineCloudUpload, AiOutlineFullscreenExit, AiOutlineLogout, AiOutlinePlus, AiOutlineUser, AiOutlineUsergroupDelete, AiOutlineVideoCameraAdd, AiTwotonePlusCircle } from 'react-icons/ai'
+import { Avatar } from 'antd'
 
 const Navbar = () => {
-    const {User,handleLogout}=useAppContext()
+    const {User,handleLogout,setOpen}=useAppContext()
 
-console.log(User.photoURL)
+console.log(User)
 
   return (
  
-<nav className="navbar navbar-expand-lg navbar-light bg-light">
-  {/* Container wrapper */}
-  <div className="container-fluid">
-    {/* Toggle button */}
-    <button className="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <i className="fas fa-bars" />
-    </button>
-    {/* Collapsible wrapper */}
-    <div className="collapse navbar-collapse" id="navbarSupportedContent">
-      {/* Navbar brand */}
-      <a className="navbar-brand mt-2 mt-lg-0" href="#">
-        {/* <img src="https://mdbcdn.b-cdn.net/img/logo/mdb-transaprent-noshadows.webp" height={15} alt="MDB Logo" loading="lazy" /> */}
-      </a>
-      {/* Left links */}
-      <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-        <li className="nav-item">
-          <a className="nav-link" onClick={handleLogout}>Log Out</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" >{User.displayName}</a>
-        </li>
-        <li className="nav-item">
-          <a className="nav-link" >Add Post</a>
-        </li>
-      </ul>
-      {/* Left links */}
+    <div className='header'>
+    <div className="header_left">
+        <img style={{height:"50px"}} src="https://1000logos.net/wp-content/uploads/2016/11/Facebook-logo.png" alt="" />
+
+        <div className="header-search">
+
+        <FaSearch style={{position:"absolute", left:"10px", top:'10px'}} onClick />
+            
+            <input type="text"  style={{
+borderRadius: "50px",
+padding: "10px 35px",
+border:" 1px solid grey",
+width:" 100%",
+}}  placeholder='search facebook'/>
+           
+            
+        </div>
+
     </div>
-    {/* Collapsible wrapper */}
-    {/* Right elements */}
-    <div className="d-flex align-items-center">
-      {/* Icon */}
-      <a className="text-reset me-3" href="#">
-        <i className="fas fa-shopping-cart" />
-      </a>
-      {/* Notifications */}
+    <div className="header-middle">
+      <div className="header-option  header__option--active">
+     <FaHome  fontSize='large'/>
+     </div>
+    < div className="header-option">
+     <AiOutlineVideoCameraAdd  fontSize='large'/>
+     </div>
+     < div className="header-option" onClick={()=>setOpen(true)}>
+     <AiFillPlusSquare fontSize='large' />
+     </div>
+     < div className="header-option">
+     <FaStreetView  fontSize='large'/>
+     </div>
+
+
      
-      {/* Avatar */}
-      <div className="dropdown">
-        <a className=" d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar" role="button" data-mdb-toggle="dropdown" aria-expanded="false">
-          <img src={User.photoURL} className="rounded-circle" height={25} alt="Black and White Portrait of a Man" loading="lazy" />
-        </a>
-       
-      </div>
+
     </div>
-    {/* Right elements */}
-  </div>
-  {/* Container wrapper */}
-</nav>
+    <div className="header-right">
+      <div className="header-info">
+
+
+        <h5>{User.displayName}</h5>
+
+        
+      </div>
+      <div className='sidemenu'>
+      <Avatar src={User.photoURL}/>
+      </div>
+      <div className='sidemenu'>
+        <AiFillNotification />
+        </div>
+      <div className='sidemenu'>
+        <FaFacebookMessenger />
+        </div>
+      <div className='sidemenu' onClick={handleLogout} style={{color:'red',fontSize:'25px'}}>
+        <AiOutlineLogout />
+        </div>
+        
+    </div>
+
+</div>
 
 
   )

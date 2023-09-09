@@ -4,6 +4,7 @@ import { collection, addDoc, DocumentReference, setDoc, doc } from 'firebase/fir
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegImages, FaUpload } from 'react-icons/fa';
+import { useAppContext } from '../ContextApi/AppContext';
 
 const AddNew = ({ path }) => {
   const title = useRef();
@@ -12,6 +13,8 @@ const AddNew = ({ path }) => {
   const imageInput = useRef();
   const [imageUrl, setImageUrl] = useState('');
   const [progressPercent, setProgressPercent] = useState(0);
+  const {User}=useAppContext()
+  console.log(User )
 
   const handleImageUpload = async () => {
     const file = imageInput.current.files[0];
@@ -58,6 +61,10 @@ const AddNew = ({ path }) => {
         image: imageUrl,
         id: uniqueId,
         timestamp: new Date(), // Store the timestamp
+        userName:User.displayName,
+        userProfile:User.photoURL,
+        userId:User.uid
+        
       });
 
       // Clear form values and image URL

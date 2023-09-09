@@ -1,34 +1,51 @@
-import React, { useState } from 'react';
-import { db, storage } from './FirebaseConfig';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+import React, { useState, useEffect } from 'react';
+import { db } from './FirebaseConfig'; // Make sure to import 'serverTimestamp'
+import { useCollectionData } from 'react-firebase-hooks/firestore'; // Import 'onSnapshot'
 import AddComment from './Components/AddComment';
-import { doc,updateDoc,collection,deleteDoc,getDoc } from 'firebase/firestore';
+import { doc, updateDoc, collection, deleteDoc, setDoc, getDoc,serverTimestamp,onSnapshot } from 'firebase/firestore';
 import Comments from './Components/Comments';
-import { AiFillDelete, AiFillEdit } from 'react-icons/ai';
-import { FaCommentAlt, FaRegEdit, FaRegTrashAlt, FaShareAlt, FaTrashAlt, FaTrashRestoreAlt, FaUndo } from 'react-icons/fa';
+import { AiFillDelete, AiFillEdit, AiFillLike } from 'react-icons/ai';
+import { FaCommentAlt, FaRegEdit, FaRegTrashAlt, FaShareAlt } from 'react-icons/fa';
 import { useAppContext } from './ContextApi/AppContext';
 import CommentsNumber from './Components/CommentsNumber';
-
+import Sidebar from './Components/Sidebar';
 
 const Post = () => {
-  
   const query = collection(db, 'Posts');
   const [docs, loading, error] = useCollectionData(query);
+  const { User } = useAppContext();
+  const [liked, setLiked] = useState({});
 
+  useEffect(() => {
+    if (User) {
+      // Fetch the user's liked posts
+      const userLikesRef = collection(db, 'Posts', User.uid, 'Likes');
+      const unsubscribe = onSnapshot(userLikesRef, (snapshot) => {
+        const likedPosts = {};
+        snapshot.forEach((doc) => {
+          likedPosts[doc.id] = true;
+        });
+        setLiked(likedPosts);
+      });
 
+      return () => {
+        // Unsubscribe from the snapshot listener
+        unsubscribe();
+      };
+    }
+  }, [User]);
 
-  
   // Function to calculate the time difference in minutes
   const getTimeAgo = (timestamp) => {
     if (!timestamp) {
       return 'Timestamp missing';
     }
-  
+
     const now = new Date();
     const postTime = new Date(timestamp.toDate()); // Convert Firestore timestamp to JavaScript Date
     const timeDiff = now - postTime;
     const minutesAgo = Math.floor(timeDiff / (1000 * 60)); // Calculate minutes
-  
+
     if (minutesAgo < 1) {
       return 'Less than a minute ago';
     } else if (minutesAgo === 1) {
@@ -51,7 +68,6 @@ const Post = () => {
       }
     }
   };
-  
 
   // State to track editing state
   const [editingPost, setEditingPost] = useState(null);
@@ -64,7 +80,6 @@ const Post = () => {
     setNewTitle(post.title);
     setNewContent(post.detail);
   };
-  console.log(editingPost, 'edit post');
 
   // Function to handle saving edited post
   const handleSaveEdit = async () => {
@@ -91,7 +106,6 @@ const Post = () => {
 
   // Function to handle deleting a post
   const handleDeletePost = async (post) => {
-    console.log(post)
     const confirmation = window.confirm('Are you sure you want to delete this post?');
     if (confirmation) {
       const postDocRef = doc(db, 'Posts', post.id);
@@ -106,7 +120,7 @@ const Post = () => {
         // Delete the post document
         await deleteDoc(postDocRef);
 
-        // Delete the image from storage
+        // Delete the image from storage (uncomment if needed)
         // const storageRef = storage.refFromURL(imageUrl);
         // try {
         //   await storageRef.delete();
@@ -118,9 +132,41 @@ const Post = () => {
     }
   };
 
+  // Function to handle liking a post
+  const handleLikePost = async (post) => {
+     console.log(post) ;
+    if (post.userName) {
+      const postLikesRef = doc(db, `Posts/${post.id}/Likes`, User.uid);
+  
+      try {
+        if (!liked[post.id]) {
+          // The user hasn't liked the post yet, so add a like
+          await setDoc(postLikesRef, {
+            timestamp: serverTimestamp(),
+            user:post.userName,
+          });
+        } else {
+          // The user has already liked the post, so unlike it
+          await deleteDoc(postLikesRef);
+        }
+  
+        // Update the liked state
+        setLiked({ ...liked, [post.id]: !liked[post.id] });
+      } catch (error) {
+        console.error('Error liking/unliking post:', error);
+      }
+    } else {
+      // User is not logged in, handle this case as needed
+      console.log('User is not logged in. Handle this case.');
+    }
+  };
+
   return (
     <div className="container mt-5 mb-5">
-      <div className="row d-flex align-items-center justify-content-center">
+      <div className="row d-flex  justify-content-center">
+        <div className="col-md-3">
+          <Sidebar/>
+        </div>
         <div className="col-md-6">
           {docs?.map((post) => {
             return (
@@ -128,15 +174,14 @@ const Post = () => {
                 <div className="user-info">
                   <div className="user-avatar">
                     <img
-                      src="https://i.imgur.com/UXdKE3o.jpg"
+                      src={post.userProfile}
                       width={50}
                       className="rounded-circle"
                       alt="User"
                     />
                   </div>
                   <div className="user-details">
-                    <span className="font-weight-bold">Jeanette Sun</span>
-                    {/* <small className="text-primary">Colleagues</small> */}
+                    <span className="font-weight-bold">{post.userName}</span>
                   </div>
                 </div>
                 <div className="timestamp">
@@ -180,19 +225,33 @@ const Post = () => {
                       </>
                     ) : (
                       <>
-                      <div>
-                        <button onClick={() => handleEditPost(post)} className="btn-edit"><FaRegEdit/></button>
-                        <button onClick={() => handleDeletePost(post)} className="btn-delete"><FaRegTrashAlt/></button>
+                      <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+                        <span
+                          onClick={() => handleLikePost(post)}
+                          className={`btn-like ${liked[post.id] ? 'liked' : ''}`}
+                        >
+                          <AiFillLike /> Like
+                        </span>
+                        <CommentsNumber id={post.id} />
+                        <FaCommentAlt />
+                        <span className="ml-2 share-btn">
+                          <FaShareAlt /> Share
+                        </span>
                         </div>
                       </>
                     )}
-                    <div className="d-flex flex-row muted-color">
-                      <span className="comment-count" ><CommentsNumber id={post.id}/> <FaCommentAlt/> </span>
-                      <span className="ml-2 share-btn"><FaShareAlt/> Share</span>
+                    <div>
+                      {User.uid==post.userId?<> <button onClick={() => handleEditPost(post)} className="btn-edit">
+                        <FaRegEdit />
+                      </button>
+                      <button onClick={() => handleDeletePost(post)} className="btn-delete">
+                        <FaRegTrashAlt />
+                      </button></>:<p style={{color:'red'}}>No Access To Delete</p>}
+                     
                     </div>
                   </div>
                   <hr />
-                  <Comments id={post.id}  />
+                  <Comments postid={post.id} />
                   <AddComment id={post.id} />
                 </div>
               </div>

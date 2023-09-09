@@ -6,6 +6,7 @@ const AppContext=createContext()
 export  const useAppContext = () => useContext(AppContext);
 
 const AppContextProvider = ({children}) => {
+  const [open, setOpen] = useState(false);
 
     const [CommentCount, setCommentCount] = useState(null)
     const [User, setUser] = useState(null)
@@ -45,7 +46,7 @@ const AppContextProvider = ({children}) => {
     console.log(User,'Auth')
 
   return (
-    <AppContext.Provider value={{CommentCount,setCommentCount,User, setUser,handleLogout}}>
+    <AppContext.Provider value={{CommentCount,setCommentCount,User, setUser,handleLogout,open, setOpen}}>
         {children}
     </AppContext.Provider>
     

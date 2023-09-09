@@ -4,10 +4,12 @@ import { db } from '../FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
 import { AiOutlineComment } from 'react-icons/ai';
 import { FaComment } from 'react-icons/fa';
+import { useAppContext } from '../ContextApi/AppContext';
 
 
 const AddComment = ({id}) => {
 const newComment=useRef()
+const {User}=useAppContext()
 
 
 
@@ -29,7 +31,10 @@ const handleSubmitTask = async (e) => {
     // Use the value, not the ref object
     await setDoc(docRef, {
       comment: commentText, // Use the extracted commentText
-      id: uniqueId
+      id: uniqueId,
+      userName:User.displayName,
+        userProfile:User.photoURL,
+        userId:User.uid
     });
 
     // Clear the input field
