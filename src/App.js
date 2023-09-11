@@ -9,17 +9,14 @@
 
 
 import './App.css';
-import React,{useEffect, useState} from 'react';
-import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import ChildrenList from './Components/ChildrenList'
-import { useCollectionData } from 'react-firebase-hooks/firestore'
-import { auth, db } from './FirebaseConfig';
-import AddUser from './Components/AddUser'
-import ShowUserData from './Components/ShowUserData'
-import { onAuthStateChanged } from 'firebase/auth';
+import React from 'react';
+
 import Home from './Pages/Home';
 import Auth from './Pages/Auth';
 import { useAppContext } from './ContextApi/AppContext';
+import { BrowserRouter, Routes,Route } from 'react-router-dom';
+import ProfilePage from './Pages/ProfilePage';
+
 
 
 
@@ -29,51 +26,43 @@ import { useAppContext } from './ContextApi/AppContext';
 
 
 function App() {
-  const [open, setOpen] = useState(false);
-  const [CurrentValue, setCurrentValue] = useState('');
-  const [DocIdToEdit, setDocIdToEdit] = useState(null);
-  const [Currentname, setCurrentname] = useState(null)
-  const query = collection(db, 'Os')
-  const [docs, loading, error] = useCollectionData(query)
- const {User, setUser} = useAppContext(null)
+ 
+
+
+ const {User} = useAppContext(null)
 
  console.log(User)
  
-  const editDataFunction = (doc) => {
-    setOpen(true);
-    setCurrentValue(doc.name);
-    setDocIdToEdit(doc.id); // Set the document ID of the subcollection item to edit
-    setCurrentname(doc.name)
-    console.log(DocIdToEdit)
-  };
-  // const docPath = `Os/New Os/Children/${DocIdToEdit}`;
+
+
   
  
 
   
-  const deleteFeildFunction = async (dock) => {
-    // Construct the document reference using the correct path
-    const docPath = `Os/${dock.id}`;
-    console.log( `Os/${dock.id}`)
-  
-    try {
-      // Delete the document using deleteDoc function
-      await deleteDoc(doc(db, docPath));
-     setOpen(false); // Close the modal after successful deletion
-    } catch (error) {
-      console.error('Error deleting document: ', error);
-    }
-  };
+
   
  
   
 
   return (
+    <BrowserRouter>
     <div className="App">
-      {User===null? <Auth/>: <Home/>}
+   
+      {User===null?
+       <Routes>
+      <Route path="/" element={ <Auth/>}></Route>
+      </Routes>
+      : 
+      
+      <Routes>
+        <Route path="/" element={ <Home/>}></Route>
+        <Route path="/profile" element={ <ProfilePage/>}></Route>
+         </Routes>
+      
+     }
      
      
-     
+    
 
      
       {/* <table>
@@ -120,6 +109,7 @@ function App() {
      
       
     </div>
+    </BrowserRouter>
   );
 }
 

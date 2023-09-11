@@ -3,51 +3,41 @@
   }
   
   body {
-    margin: 40px 0px;
-    background-color: #385591;
+    margin: 0px 0px;
+   
   }
   
-  body,
-  input,
-  button {
-    font-family: Helvetica;
-  }
+ 
   
-  img {
-    display: block;
-    width: 100%;
-    border: 0;
-  }
-  
-  .tb {
+  main.profile .tb {
     display: table;
     width: 100%;
   }
   
-  .tr {
+  main.profile .tr {
     display: table-row;
   }
   
-  .td {
+  main.profile .td {
     display: table-cell;
     vertical-align: middle;
   }
   
-  a {
+  main.profile a {
     text-decoration: none;
   }
   
-  button {
+  main.profile button {
     padding: 0;
     border: 0;
     background-color: transparent;
   }
   
-  ::placeholder {
+  main.profile ::placeholder {
     color: #f1f1f1;
   }
   
-  main {
+  main.profile main {
     width: 1280px;
     margin: 0 auto;
     background-color: #e9ebee;
@@ -304,27 +294,27 @@
     padding: 55px 0px 0px 55px;
   }
   
-  #l-col,
-  #m-col,
-  #r-col {
+  main.profile  #l-col,
+  main.profile #m-col,
+  main.profile #r-col {
     vertical-align: top;
   }
   
-  #l-col {
+  main.profile #l-col {
     width: 340px;
     padding-top: 6px;
   }
   
-  .l-cnt {
+  main.profile.l-cnt {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 3px 3px #ddd;
   }
   
-  .l-mrg {
+  main.profile.l-mrg {
     margin-top: 28px;
   }
-  .l-i {
+  main.profile.l-i {
     display: inline-block;
     width: 24px;
     height: 24px;
@@ -334,69 +324,69 @@
     vertical-align: middle;
   }
   
-  #l-i-i {
+  main.profile  main.profile#l-i-i {
     background-image: url("https://imagizer.imageshack.com/img922/7749/C8tmwX.png");
     background-position: 0 -87px;
   }
   
-  #l-i-p {
+    main.profile#l-i-p {
     background-image: url("https://imagizer.imageshack.com/img923/7847/sRapnM.png");
     background-position: 0 0;
   }
   
-  #l-i-k {
+   main.profile #l-i-k {
     background-image: url("https://imagizer.imageshack.com/img922/5617/QpPVKn.png");
   }
   
-  .cnt-label {
+   main.profile .cnt-label {
     position: relative;
     padding-right: 24px;
     margin-bottom: 15px;
   }
   
-  .cnt-label span {
+   main.profile .cnt-label span {
     position: relative;
     top: 2px;
     color: #707070;
     font-size: 18px;
   }
   
-  .lb-action {
+   main.profile .lb-action {
     position: absolute;
     top: 0px;
     right: 0px;
     cursor: pointer;
   }
   
-  .lb-action i {
+   main.profile .lb-action i {
     display: block;
     color: #ccc;
     font-size: 18px;
   }
   
-  #b-i i {
+   main.profile #b-i i {
     font-size: 24px;
   }
   
-  #i-box {
+   main.profile #i-box {
     color: #797979;
     font-size: 14px;
     line-height: 1.3;
   }
   
-  #intro-line {
+   main.profile #intro-line {
     margin-top: 17px;
   }
   
-  #u-occ {
+   main.profile #u-occ {
     margin: 10px 0px;
   }
   
-  #u-occ a {
+   main.profile #u-occ a {
     color: #2196f3;
   }
   
-  #u-loc i {
+   main.profile #u-loc i {
     color: #2196f3;
     font-size: 16px;
     margin-left: -3px;
@@ -405,18 +395,18 @@
     vertical-align: middle;
   }
   
-  #u-loc a {
+   main.profile #u-loc a {
     position: relative;
     top: 1px;
     color: #2196f3;
   }
   
-  #photos {
+   main.profile #photos {
     padding: 2px;
     margin: 15px -20px -20px -20px;
   }
   
-  #photos .td {
+   main.profile #photos .td {
     width: 33.333%;
     height: 112px;
     border: 2px solid #fff;
@@ -426,43 +416,43 @@
     background-size: cover;
   }
   
-  #photos .tb .tr:nth-child(1) .td:nth-child(1) {
+   main.profile #photos .tb .tr:nth-child(1) .td:nth-child(1) {
     background-image: url("https://imagizer.imageshack.com/img922/8637/NN4aPj.jpg");
   }
   
-  #photos .tb .tr:nth-child(1) .td:nth-child(2) {
+   main.profile #photos .tb .tr:nth-child(1) .td:nth-child(2) {
     background-image: url("https://imagizer.imageshack.com/img923/528/iJy0X5.jpg");
   }
   
-  #photos .tb .tr:nth-child(1) .td:nth-child(3) {
+   main.profile #photos .tb .tr:nth-child(1) .td:nth-child(3) {
     background-image: url("https://imagizer.imageshack.com/img923/9781/26phSy.jpg");
   }
   
-  #photos .tb .tr:nth-child(2) .td:nth-child(1) {
+   main.profile #photos .tb .tr:nth-child(2) .td:nth-child(1) {
     background-image: url("https://imagizer.imageshack.com/img921/8417/svxO7y.jpg");
   }
   
-  #photos .tb .tr:nth-child(2) .td:nth-child(2) {
+   main.profile #photos .tb .tr:nth-child(2) .td:nth-child(2) {
     background-image: url("https://imagizer.imageshack.com/img921/6488/i2Hb4U.jpg");
   }
   
-  #photos .tb .tr:nth-child(2) .td:nth-child(3) {
+   main.profile #photos .tb .tr:nth-child(2) .td:nth-child(3) {
     background-image: url("https://imagizer.imageshack.com/img921/2453/J7PICR.jpg");
   }
   
-  #photos .tb .tr:nth-child(3) .td:nth-child(1) {
+   main.profile #photos .tb .tr:nth-child(3) .td:nth-child(1) {
     background-image: url("https://imagizer.imageshack.com/img921/3021/8uZZY2.jpg");
   }
   
-  #photos .tb .tr:nth-child(3) .td:nth-child(2) {
+   main.profile #photos .tb .tr:nth-child(3) .td:nth-child(2) {
     background-image: url("https://imagizer.imageshack.com/img923/3992/22mL29.jpg");
   }
   
-  #photos .tb .tr:nth-child(3) .td:nth-child(3) {
+   main.profile #photos .tb .tr:nth-child(3) .td:nth-child(3) {
     background-image: url("https://imagizer.imageshack.com/img921/2711/JXSt41.jpg");
   }
   
-  #k-nm {
+   main.profile #k-nm {
     color: #b8b8b8;
     font-size: 15px;
     font-style: normal;
@@ -470,11 +460,11 @@
     cursor: pointer;
   }
   
-  .q-ad-c {
+   main.profile .q-ad-c {
     padding: 2px;
   }
   
-  .q-ad {
+   main.profile .q-ad {
     display: block;
     padding: 8px;
     border: 1px solid #eeeeee;
@@ -482,7 +472,7 @@
     border-radius: 4px;
   }
   
-  .q-ad img {
+   main.profile .q-ad img {
     display: inline;
     width: 24px;
     height: 24px;
@@ -490,7 +480,7 @@
     vertical-align: middle;
   }
   
-  .q-ad span {
+   main.profile .q-ad span {
     position: relative;
     top: 1px;
     color: #242424;
@@ -498,7 +488,7 @@
     text-align: center;
   }
   
-  #add_q {
+   main.profile #add_q {
     color: #858585;
     text-align: center;
     margin-top: 10px;
@@ -506,57 +496,57 @@
     border-color: #f1f1f1;
   }
   
-  #add_q i {
+   main.profile #add_q i {
     font-size: 17px;
     margin-right: -3px;
     vertical-align: middle;
   }
   
-  #add_q span {
+   main.profile #add_q span {
     color: #858585;
     font-size: 12.4px;
     position: relative;
     top: -1px;
   }
   
-  #t-box {
+   main.profile #t-box {
     font-size: 14px;
     color: #686868;
     padding-top: 24px;
     line-height: 18px;
   }
   
-  #t-box a {
+   main.profile #t-box a {
     margin-right: 5px;
   }
   
-  #t-box a,
-  #t-more {
+   main.profile #t-box a,
+   main.profile #t-more {
     color: #999;
   }
   
-  #t-more {
+   main.profile #t-more {
     cursor: pointer;
   }
   
-  #t-more i {
+    main.profile #t-more i {
     font-size: 15px;
     vertical-align: middle;
   }
   
-  #cpy-nt {
+    main.profile #cpy-nt {
     margin-top: 4px;
   }
   
-  #m-col {
+    main.profile #m-col {
     padding: 0px 55px;
   }
   
-  .m-mrg {
+    main.profile .m-mrg {
     margin-bottom: 28px;
   }
   
-  #p-tabs {
+    main.profile #p-tabs {
     position: relative;
     font-size: 13px;
     color: #919191;
@@ -568,20 +558,20 @@
     z-index: 3;
   }
   
-  #p-tabs-m .td {
+   main.profile #p-tabs-m .td {
     width: 16.6666667%;
     cursor: pointer;
   }
   
-  #p-tabs-m .td.active {
+   main.profile #p-tabs-m .td.active {
     color: #ee6000;
   }
   
-  #p-tabs-m span {
+   main.profile #p-tabs-m span {
     position: relative;
   }
   
-  #p-tabs-m .td.active span:after {
+   main.profile #p-tabs-m .td.active span:after {
     content: "";
     position: absolute;
     left: 0px;
@@ -591,39 +581,39 @@
     background-color: #ee6000;
   }
   
-  #p-tabs-m .td i {
+   main.profile #p-tabs-m .td i {
     display: block;
     font-size: 24px;
     margin-bottom: 5px;
   }
   
-  #p-tab-m {
+   main.profile #p-tab-m {
     width: 1px;
     color: #ccc;
     cursor: pointer;
   }
   
-  #p-tab-m i {
+   main.profile #p-tab-m i {
     margin-right: -4px;
   }
   
-  #composer {
+   main.profile #composer {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 3px 3px #ddd;
   }
   
-  #c-tabs-cvr {
+   main.profile #c-tabs-cvr {
     padding-bottom: 12px;
     border-bottom: 1px solid #ececec;
   }
   
-  #c-tabs {
+   main.profile #c-tabs {
     width: auto;
     color: #919191;
   }
   
-  #c-tabs .td {
+   main.profile #c-tabs .td {
     position: relative;
     width: 1px;
     padding: 0px 15px;
@@ -631,7 +621,7 @@
     cursor: pointer;
   }
   
-  #c-tabs .td:after {
+   main.profile #c-tabs .td:after {
     content: "";
     position: absolute;
     top: 50%;
@@ -642,27 +632,27 @@
     background-color: #eaeaea;
   }
   
-  #c-tabs .td:first-child {
+   main.profile #c-tabs .td:first-child {
     padding-left: 0px;
   }
   
-  #c-tabs .td:last-child {
+   main.profile #c-tabs .td:last-child {
     padding-right: 0;
   }
   
-  #c-tabs .td:last-child:after {
+   main.profile #c-tabs .td:last-child:after {
     display: none;
   }
   
-  #c-tabs .td span {
-    position: relative;
+   main.profile #c-tabs .td span {
+     position: relative;
   }
   
-  #c-tabs .td.active {
+   main.profile #c-tabs .td.active {
     color: #373737;
   }
   
-  #c-tabs .td.active span:after {
+   main.profile #c-tabs .td.active span:after {
     content: "";
     position: absolute;
     left: 0px;
@@ -677,39 +667,39 @@
     transform: rotateZ(45deg);
   }
   
-  #c-tabs .td i {
+   main.profile #c-tabs .td i {
     font-size: 21px;
     margin-right: 4px;
     vertical-align: middle;
   }
   
-  #c-tabs .td span {
+   main.profile #c-tabs .td span {
     position: relative;
     top: 1px;
     font-size: 15px;
   }
   
-  #c-c-main {
+   main.profile #c-c-main {
     position: relative;
     padding-top: 15px;
   }
   
-  #p-c-i {
+   main.profile #p-c-i {
     width: 50px;
     border-radius: 50%;
     overflow: hidden;
   }
   
-  #p-c-i img {
+   main.profile #p-c-i img {
     display: block;
     width: 100%;
   }
   
-  #c-inp {
+   main.profile #c-inp {
     padding-left: 20px;
   }
   
-  #c-inp input {
+   main.profile #c-inp input {
     width: 100%;
     font-size: 20px;
     border: 0;
@@ -717,73 +707,73 @@
     margin: 0;
   }
   
-  #c-c-main input::placeholder {
+   main.profile #c-c-main input::placeholder {
     color: #666;
   }
   
-  #insert_emoji {
+   main.profile #insert_emoji {
     position: absolute;
     right: -2px;
     bottom: -10px;
     cursor: pointer;
   }
   
-  #insert_emoji i {
+   main.profile #insert_emoji i {
     display: block;
     color: #ccced6;
     font-size: 21px;
   }
   
-  .post {
+   main.profile .post {
     padding: 20px;
     background-color: #fff;
     box-shadow: 0px 3px 3px #ddd;
   }
   
-  .p-p-pic {
+   main.profile .p-p-pic {
     width: 50px;
     height: 50px;
     border-radius: 50%;
     overflow: hidden;
   }
   
-  .p-p-pic img {
+   main.profile .p-p-pic img {
     width: 100%;
     display: block;
     border: 0;
   }
   
-  .p-r-hdr {
+   main.profile .p-r-hdr {
     vertical-align: top;
     padding-left: 20px;
   }
   
-  .p-u-info {
+   main.profile .p-u-info {
     color: #5a5959;
     font-size: 15px;
     margin-bottom: 7px;
   }
   
-  .p-u-info a {
+   main.profile .p-u-info a {
     color: #4267b2;
   }
   
-  .p-dt {
+   main.profile .p-dt {
     color: #a8a8a8;
     font-size: 13px;
   }
   
-  .p-dt i {
+   main.profile .p-dt i {
     font-size: 14px;
     margin-right: 2px;
   }
   
-  .p-dt span {
+   main.profile .p-dt span {
     position: relative;
     top: -2px;
   }
   
-  .p-opt {
+   main.profile .p-opt {
     position: relative;
     right: -3px;
     width: 1px;
@@ -792,24 +782,24 @@
     vertical-align: top;
   }
   
-  .p-cnt-v {
+   main.profile .p-cnt-v {
     display: block;
     margin: 20px -20px;
     cursor: pointer;
   }
   
-  .p-acts {
+   main.profile .p-acts {
     overflow: hidden;
   }
   
-  .p-act {
+   main.profile .p-act {
     width: 24px;
     height: 24px;
     color: #a3a6aa;
     cursor: pointer;
   }
   
-  .p-act span {
+   main.profile .p-act span {
     position: relative;
     top: 1px;
     width: 20px;
@@ -817,37 +807,37 @@
     color: #a3a6aa;
   }
   
-  .like {
+   main.profile .like {
     margin-right: 36px;
   }
   
-  .like,
-  .comment {
+   main.profile .like,
+   main.profile .comment {
     width: 50px;
     float: left;
   }
   
-  .p-act i {
+   main.profile .p-act i {
     vertical-align: middle;
   }
   
-  .like i,
-  .comment i {
+   main.profile .like i,
+   main.profile .comment i {
     margin-right: 6px;
   }
   
-  .share {
+   main.profile .share {
     float: right;
     transform: rotateY(180deg);
     margin-right: -1px;
   }
   
-  #loading {
+   main.profile #loading {
     text-align: center;
     padding: 40px 0px;
   }
   
-  #loading i {
+   main.profile #loading i {
     color: #4267b2;
     font-size: 32px;
     display: block;
@@ -855,12 +845,12 @@
   /* Content area finished */
   
   /* Chat bar */
-  #r-col {
+   main.profile #r-col {
     position: relative;
     width: 150px;
   }
   
-  #chat-bar {
+   main.profile #chat-bar {
     position: absolute;
     top: -55px;
     right: 55px;
@@ -868,25 +858,25 @@
     left: 0px;
   }
   
-  #chat-lb {
+   main.profile #chat-lb {
     color: #3a5795;
     font-size: 16px;
     text-align: center;
     margin: 23px 0px;
   }
   
-  #chat-lb i {
+   main.profile #chat-lb i {
     font-size: 18px;
     margin-right: 4px;
     vertical-align: middle;
   }
   
-  #chat-lb span {
+   main.profile #chat-lb span {
     position: relative;
     top: 2px;
   }
   
-  .on-ct {
+   main.profile .on-ct {
     position: relative;
     width: 50px;
     height: 50px;
@@ -894,15 +884,15 @@
     border-radius: 50%;
   }
   
-  #cts .on-ct:first-child {
+   main.profile #cts .on-ct:first-child {
     margin-top: 0px;
   }
   
-  .on-ct img {
+   main.profile .on-ct img {
     border-radius: 50%;
   }
   
-  .on-ct.active:after {
+   main.profile .on-ct.active:after {
     content: "";
     position: absolute;
     top: 3px;
@@ -915,11 +905,11 @@
     z-index: 1;
   }
   
-  #ct-sett {
+   main.profile #ct-sett {
     margin-top: 55px;
   }
   
-  #ct-sett i {
+   main.profile #ct-sett i {
     color: #3a5795;
     padding: 13px;
     background-color: #d8e4ff;
@@ -929,12 +919,12 @@
   /* Chat bar finished */
   
   /* Footer */
-  #device-bar-2 {
+   main.profile #device-bar-2 {
     padding: 9px 0px 13px 0px;
     background-color: #000;
   }
   
-  #device-bar-2 i {
+   main.profile #device-bar-2 i {
     display: block;
     width: 40px;
     color: #fff;

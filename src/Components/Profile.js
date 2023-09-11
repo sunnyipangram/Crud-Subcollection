@@ -1,14 +1,13 @@
 import React from 'react'
 import '../Css/Profile.css'
+import { useAppContext } from '../ContextApi/AppContext'
 
 const Profile = () => {
+
+  const {User}=useAppContext()
   return (
     <main className='profile'>
-  <div id="device-bar-1">
-    <button />
-    <button />
-    <button />
-  </div>
+  
   <header>
     <div className="tb">
       <div className="td" id="logo">
@@ -20,7 +19,7 @@ const Profile = () => {
           <button type="submit"><i className="material-icons">search</i></button>
         </form>
       </div>
-      <div className="td" id="f-name-l"><span>Himalaya's facebook</span></div>
+      <div className="td" id="f-name-l"><span>{User.displayName}'s facebook</span></div>
       <div className="td" id="i-links">
         <div className="tb">
           <div className="td" id="m-td">
@@ -32,7 +31,7 @@ const Profile = () => {
           </div>
           <div className="td">
             <a href="#" id="p-link">
-              <img src="https://imagizer.imageshack.com/img921/3072/rqkhIb.jpg" />
+              <img src={User.photoURL} />
             </a>
           </div>
         </div>
@@ -45,9 +44,9 @@ const Profile = () => {
     </div>
     <div id="profile-d">
       <div id="profile-pic">
-        <img src="https://imagizer.imageshack.com/img921/3072/rqkhIb.jpg" />
+        <img src={User.photoURL} />
       </div>
-      <div id="u-name">Himalaya Singh</div>
+      <div id="u-name">{User.displayName}</div>
       <div className="tb" id="m-btns">
         <div className="td">
           <div className="m-btn"><i className="material-icons">format_list_bulleted</i><span>Activity log</span></div>
@@ -70,9 +69,9 @@ const Profile = () => {
             <div className="lb-action"><i className="material-icons">edit</i></div>
           </div>
           <div id="i-box">
-            <div id="intro-line">Front-end Engineer</div>
-            <div id="u-occ">I love making applications with Angular.</div>
-            <div id="u-loc"><i className="material-icons">location_on</i><a href="#">Bengaluru</a>, <a href="#">India</a></div>
+            <div id="intro-line">Front-end Developer</div>
+            <div id="u-occ">I love making applications with React.Js</div>
+            <div id="u-loc"><i className="material-icons">location_on</i><a href="#">Aligarh</a>, <a href="#">India</a></div>
           </div>
         </div>
         <div className="l-cnt l-mrg">
@@ -152,7 +151,7 @@ const Profile = () => {
           </div>
           <div id="c-c-main">
             <div className="tb">
-              <div className="td" id="p-c-i"><img src="https://imagizer.imageshack.com/img921/3072/rqkhIb.jpg" alt="Profile pic" /></div>
+              <div className="td" id="p-c-i"><img src={User.photoURL} alt="Profile pic" /></div>
               <div className="td" id="c-inp">
                 <input type="text" placeholder="What's on your mind?" />
               </div>
@@ -163,10 +162,10 @@ const Profile = () => {
         <div>
           <div className="post">
             <div className="tb">
-              <a href="#" className="td p-p-pic"><img src="https://imagizer.imageshack.com/img923/2452/zifFKH.jpg" alt="Rajeev's profile pic" /></a>
+              <a href="#" className="td p-p-pic"><img src={User.photoURL} alt="Rajeev's profile pic" /></a>
               <div className="td p-r-hdr">
                 <div className="p-u-info">
-                  <a href="#">Rajeev Singh</a> shared a memory with <a href="#">Himalaya Singh</a>
+                  <a href="#">{User.displayName}</a> shared a memory with <a href="#">{User.displayName} </a>
                 </div>
                 <div className="p-dt">
                   <i className="material-icons">calendar_today</i>
@@ -189,35 +188,7 @@ const Profile = () => {
         </div>
         <div id="loading"><i className="material-icons">autorenew</i></div>
       </div>
-      <div className="td" id="r-col">
-        <div id="chat-bar">
-          <div id="chat-lb"><i className="material-icons">contacts</i><span>Contacts</span></div>
-          <div id="cts">
-            <div className="on-ct active">
-              <a href="#"><img src="https://imagizer.imageshack.com/img924/4231/JnFicn.jpg" /></a>
-            </div>
-            <div className="on-ct active">
-              <a href="#"><img src="https://imagizer.imageshack.com/img923/332/1abR4H.png" /></a>
-            </div>
-            <div className="on-ct">
-              <a href="#"><img src="https://imagizer.imageshack.com/img924/4231/JnFicn.jpg" /></a>
-            </div>
-            <div className="on-ct active">
-              <a href="#"><img src="https://imagizer.imageshack.com/img923/332/1abR4H.png" /></a>
-            </div>
-            <div className="on-ct active">
-              <a href="#"><img src="https://imagizer.imageshack.com/img924/4231/JnFicn.jpg" /></a>
-            </div>
-            <div className="on-ct">
-              <a href="#"><img src="https://imagizer.imageshack.com/img924/4231/JnFicn.jpg" /></a>
-            </div>
-            <div className="on-ct">
-              <a href="#"><img src="https://imagizer.imageshack.com/img923/332/1abR4H.png" /></a>
-            </div>
-            <div className="on-ct" id="ct-sett"><i className="material-icons">settings</i></div>
-          </div>
-        </div>
-      </div>
+     
     </div>
   </div>
   <div id="device-bar-2"><i className="fab fa-apple" /></div>
