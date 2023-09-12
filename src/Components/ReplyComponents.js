@@ -4,10 +4,10 @@ import { db } from '../FirebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 
 const ReplyComponent = ({commentid,postid}) => {
-    console.log(commentid,postid)
+    // console.log(commentid,postid)
     const query=collection(db,`/Posts/${postid}/Comments/${commentid}/replies`)
     const [Replies,error,loading]=useCollectionData(query)
-    console.log(Replies)
+    // console.log(Replies)
 
 
   return (

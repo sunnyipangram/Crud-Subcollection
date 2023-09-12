@@ -2,8 +2,12 @@ import React from 'react';
 import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth, db, googleProvider } from '../FirebaseConfig';
 import { collection, doc, setDoc } from 'firebase/firestore';
+import { useAppContext } from '../ContextApi/AppContext';
+import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
 
 const Auth = () => {
+ const{UserProfile}=useAppContext()
+  
   const signInWithGoogle = async (e) => {
     e.preventDefault();
     try {
@@ -11,17 +15,34 @@ const Auth = () => {
       const user = userCredential.user;
       const DocRef=doc(collection(db, 'Users'), user.uid)
 
-      // After successful authentication, create a Firestore document with the user's UID
-      await setDoc(DocRef, { 
-        id: user.uid,
-        name:{firstName:'',lastName:''},
-        age:null,
-        gender:null,
-        profileUrl:'',
-        contact:null,
-        
 
-       });
+      // After successful authentication, create a Firestore document with the user's UID
+      if(!UserProfile){
+        await setDoc(DocRef, { 
+          id: user.uid,
+          firstName:'',
+          lastName:'',
+          age:null,
+          gender:null,
+          profileImage:'',
+          contact:null,
+          
+  
+         });
+         
+      }
+      else{
+        await setDoc(DocRef,{
+          id: user.uid,
+          firstName: UserProfile.firstName,
+    lastName: UserProfile.lastName,
+    age: UserProfile.age,
+    gender: UserProfile.gender,
+    contact: UserProfile.contact,
+    profileImage: UserProfile.profileImage,
+        })
+      }
+    
 
       console.log('User signed up and UID saved to Firestore.');
     } catch (err) {

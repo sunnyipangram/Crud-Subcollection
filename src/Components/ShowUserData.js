@@ -9,7 +9,7 @@ const ShowUserData = ({ users }) => {
   const [isDeleting, setIsDeleting] = useState(false);
   const query = collection(db, 'Users');
   const [docs, loading, error] = useCollectionData(query);
-  console.log(docs,loading,error)
+  // console.log(docs,loading,error)
 
   const handleEditClick = (user) => {
     setEditingUserId(user.id);

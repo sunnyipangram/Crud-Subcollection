@@ -13,8 +13,8 @@ const AddNew = ({ path }) => {
   const imageInput = useRef();
   const [imageUrl, setImageUrl] = useState('');
   const [progressPercent, setProgressPercent] = useState(0);
-  const {User}=useAppContext()
-  console.log(User )
+  const {User,UserProfile}=useAppContext()
+  // console.log(User )
 
   const handleImageUpload = async () => {
     const file = imageInput.current.files[0];
@@ -61,9 +61,7 @@ const AddNew = ({ path }) => {
         image: imageUrl,
         id: uniqueId,
         timestamp: new Date(), // Store the timestamp
-        userName:User.displayName,
-        userProfile:User.photoURL,
-        userId:User.uid
+       user:UserProfile
         
       });
 

@@ -16,6 +16,7 @@ import Auth from './Pages/Auth';
 import { useAppContext } from './ContextApi/AppContext';
 import { BrowserRouter, Routes,Route } from 'react-router-dom';
 import ProfilePage from './Pages/ProfilePage';
+import EditProfile from './Pages/EditProfile';
 
 
 
@@ -57,6 +58,7 @@ function App() {
       <Routes>
         <Route path="/" element={ <Home/>}></Route>
         <Route path="/profile" element={ <ProfilePage/>}></Route>
+        <Route path="/editProfile" element={ <EditProfile/>}></Route>
          </Routes>
       
      }

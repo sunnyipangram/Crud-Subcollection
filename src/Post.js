@@ -13,7 +13,7 @@ import Sidebar from './Components/Sidebar';
 const Post = () => {
   const query = collection(db, 'Posts');
   const [docs, loading, error] = useCollectionData(query);
-  const { User } = useAppContext();
+  const { User,UserProfile } = useAppContext();
   const [liked, setLiked] = useState({});
 
   useEffect(() => {
@@ -160,6 +160,7 @@ const Post = () => {
       console.log('User is not logged in. Handle this case.');
     }
   };
+  
 
   return (
     <div className="container mt-5 mb-5">
@@ -169,19 +170,20 @@ const Post = () => {
         </div>
         <div className="col-md-6">
           {docs?.map((post) => {
+            console.log(post.user.profileImage,'post')
             return (
               <div className="card custom-card" key={post.id}>
                 <div className="user-info">
                   <div className="user-avatar">
                     <img
-                      src={post.userProfile}
+                      src={post.user.profileImage}
                       width={50}
                       className="rounded-circle"
                       alt="User"
                     />
                   </div>
                   <div className="user-details">
-                    <span className="font-weight-bold">{post.userName}</span>
+                    <span className="font-weight-bold">{post.user.firstName} {post.user.lastName}</span>
                   </div>
                 </div>
                 <div className="timestamp">
@@ -241,7 +243,7 @@ const Post = () => {
                       </>
                     )}
                     <div>
-                      {User.uid==post.userId?<> <button onClick={() => handleEditPost(post)} className="btn-edit">
+                      {User.uid==post.user.id?<> <button onClick={() => handleEditPost(post)} className="btn-edit">
                         <FaRegEdit />
                       </button>
                       <button onClick={() => handleDeletePost(post)} className="btn-delete">

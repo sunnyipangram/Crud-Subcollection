@@ -4,11 +4,12 @@ import '../Css/Navbar.css'
 import { FaArrowAltCircleDown, FaBell, FaFacebook, FaFacebookMessenger, FaFortAwesome, FaGamepad, FaHome, FaSearch, FaStreetView, FaTv, FaUserAlt, FaUserCog, FaUserFriends, FaViadeoSquare } from 'react-icons/fa'
 import { AiFillFileAdd, AiFillHome, AiFillNotification, AiFillPlusCircle, AiFillPlusSquare, AiOutlineCloudUpload, AiOutlineFullscreenExit, AiOutlineLogout, AiOutlinePlus, AiOutlineUser, AiOutlineUsergroupDelete, AiOutlineVideoCameraAdd, AiTwotonePlusCircle } from 'react-icons/ai'
 import { Avatar } from 'antd'
+import { NavLink } from 'react-router-dom'
 
 const Navbar = () => {
-    const {User,handleLogout,setOpen}=useAppContext()
+    const {User,handleLogout,setOpen,UserProfile}=useAppContext()
 
-console.log(User)
+// console.log(User)
 
   return (
  
@@ -53,12 +54,14 @@ width:" 100%",
       <div className="header-info">
 
 
-        <h5>{User.displayName}</h5>
+        <h5>{UserProfile?.firstName}'s Facebook</h5>
 
         
       </div>
       <div className='sidemenu'>
-      <Avatar src={User.photoURL}/>
+        <NavLink to='/profile'>
+      <Avatar src={UserProfile?.profileImage}/>
+      </NavLink>
       </div>
       <div className='sidemenu'>
         <AiFillNotification />

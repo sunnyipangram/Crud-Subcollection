@@ -11,7 +11,7 @@ import ReplyComponent from './ReplyComponents';
 const Comments = ({ postid, CommentCount, setCommentCount }) => {
   const query = collection(db, `Posts/${postid}/Comments`);
   const [docs, loading, error] = useCollectionData(query);
-  const { User } = useAppContext();
+  const { User,UserProfile } = useAppContext();
 
   // State to track editing state
   const [editingComment, setEditingComment] = useState(null);

@@ -1,56 +1,73 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import React,{createContext,useContext,useState,useEffect} from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { auth } from '../FirebaseConfig';
+import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { db } from '../FirebaseConfig';
 
-const AppContext=createContext()
-export  const useAppContext = () => useContext(AppContext);
+const AppContext = createContext();
+export const useAppContext = () => useContext(AppContext);
 
-const AppContextProvider = ({children}) => {
+const AppContextProvider = ({ children }) => {
   const [open, setOpen] = useState(false);
+  const [CommentCount, setCommentCount] = useState(null);
+  const [User, setUser] = useState(null);
+  const [UserProfile, setUserProfile] = useState(null);
 
-    const [CommentCount, setCommentCount] = useState(null)
-    const [User, setUser] = useState(null)
-  
+  useEffect(() => {
+    console.log('Starting useEffect');
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      console.log('Auth state changed:', user);
+      if (user) {
+        setUser(user);
+        const docRef = doc(db, 'Users', user.uid); // Use 'user.uid' directly
+        const docSnap = await getDoc(docRef);
+        console.log(docSnap.data(), "user data"); // Access the user data
 
-    useEffect(() => {
-      console.log('Starting useEffect');
-      const unsubscribe = onAuthStateChanged(auth, (user) => {
-        console.log('Auth state changed:', user);
-        if (user) {
-          setUser(user);
+        if (docSnap.exists()) {
+          // If the document exists, it means the user profile is already updated.
+          setUserProfile(docSnap.data());
         } else {
-          // Handle signed out state
+          // If the document does not exist, create a new user profile document.
+          await setDoc(docRef, {
+            id: user.uid,
+            name: { firstName: '', lastName: '' },
+            age: null,
+            gender: null,
+            profileUrl: '',
+            contact: null,
+          });
         }
-      });
-    
-      // Don't forget to unsubscribe when the component unmounts
-      return () => {
-        console.log('Cleaning up useEffect');
-        unsubscribe();
-      };
-    }, [User]);
-    const handleLogout = async () => {
-      try {
-        await auth.signOut(); // Sign the user out
-        console.log('User signed out');
-        // You can also redirect the user to a different page after logout, if needed.
-        setUser(null)
-      } catch (error) {
-        console.error('Error signing out:', error);
+      } else {
+        // Handle signed out state
+        setUser(null); // Set user to null when signed out
       }
-    };
-    
-    
+    });
 
- 
-    console.log(User,'Auth')
+    // Don't forget to unsubscribe when the component unmounts
+    return () => {
+      console.log('Cleaning up useEffect');
+      unsubscribe();
+    };
+  }, []); // Removed 'User' from the dependency array
+
+  const handleLogout = async () => {
+    try {
+      await auth.signOut(); // Sign the user out
+      console.log('User signed out');
+      // You can also redirect the user to a different page after logout, if needed.
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
 
   return (
-    <AppContext.Provider value={{CommentCount,setCommentCount,User, setUser,handleLogout,open, setOpen}}>
-        {children}
+    <AppContext.Provider
+      value={{ CommentCount, setCommentCount, User, setUser, handleLogout, open, setOpen, UserProfile }}
+    >
+      {children}
     </AppContext.Provider>
-    
-  )
-}
-export default AppContextProvider
+  );
+};
 
+export default AppContextProvider;

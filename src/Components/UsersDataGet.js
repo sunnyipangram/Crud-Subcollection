@@ -6,7 +6,7 @@ import { useAppContext } from '../ContextApi/AppContext'
 
 const UsersDataGet = () => {
     const {User}=useAppContext()
-    console.log(User)
+    // console.log(User)
 
     const query=doc(db,'Users',User.uid)
     const [users,loading,error]=useDocumentData(query)
