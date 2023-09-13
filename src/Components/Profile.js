@@ -1,10 +1,30 @@
-import React from 'react'
+import React, { useEffect,useState } from 'react'
 import '../Css/Profile.css'
 import { useAppContext } from '../ContextApi/AppContext'
+import { collection } from 'firebase/firestore'
+import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { db } from '../FirebaseConfig'
 
 const Profile = () => {
 
-  const {User}=useAppContext()
+  const {User,UserProfile}=useAppContext()
+  const [UserPosts, setUserPosts] = useState([])
+
+  const query=collection(db,'Posts')
+  const [docs,loading,error]=useCollectionData(query)
+  console.log(docs,"all posts")
+
+  const filteredPosts = docs?.filter((post) => post.user.id === UserProfile.id);
+
+  useEffect(() => {
+    // filteredPosts now contains only the posts posted by the specific user
+    setUserPosts(filteredPosts)
+  }, [docs]);
+  console.log(UserPosts,'filterd')
+  
+
+
+
   return (
     <main className='profile'>
   
@@ -19,7 +39,7 @@ const Profile = () => {
           <button type="submit"><i className="material-icons">search</i></button>
         </form>
       </div>
-      <div className="td" id="f-name-l"><span>{User.displayName}'s facebook</span></div>
+      <div className="td" id="f-name-l"><span>{UserProfile?.firstName}'s facebook</span></div>
       <div className="td" id="i-links">
         <div className="tb">
           <div className="td" id="m-td">
@@ -31,7 +51,7 @@ const Profile = () => {
           </div>
           <div className="td">
             <a href="#" id="p-link">
-              <img src={User.photoURL} />
+              <img src={UserProfile?.profileImage} />
             </a>
           </div>
         </div>
@@ -44,9 +64,9 @@ const Profile = () => {
     </div>
     <div id="profile-d">
       <div id="profile-pic">
-        <img src={User.photoURL} />
+        <img src={UserProfile?.profileImage} />
       </div>
-      <div id="u-name">{User.displayName}</div>
+      <div id="u-name">{UserProfile?.firstName+" "+UserProfile?.lastName}</div>
       <div className="tb" id="m-btns">
         <div className="td">
           <div className="m-btn"><i className="material-icons">format_list_bulleted</i><span>Activity log</span></div>
@@ -81,21 +101,12 @@ const Profile = () => {
             <div className="lb-action" id="b-i"><i className="material-icons">keyboard_arrow_down</i></div>
           </div>
           <div id="photos">
-            <div className="tb">
-              <div className="tr">
-                <div className="td" />
-                <div className="td" />
-                <div className="td" />
-              </div>
-              <div className="tr">
-                <div className="td" />
-                <div className="td" />
-                <div className="td" />
-              </div>
-              <div className="tr">
-                <div className="td" />
-                <div className="td" />
-                <div className="td" />
+            <div className="">
+              <div className="row">
+                {UserPosts?.map((post)=>{
+                  return <div className="col-md-4" ><img src={post.image} className='img-fluid' alt="" /></div>
+                })}
+               
               </div>
             </div>
           </div>
@@ -162,10 +173,10 @@ const Profile = () => {
         <div>
           <div className="post">
             <div className="tb">
-              <a href="#" className="td p-p-pic"><img src={User.photoURL} alt="Rajeev's profile pic" /></a>
+              <a href="#" className="td p-p-pic"><img src={UserProfile?.profileImage} alt="Rajeev's profile pic" /></a>
               <div className="td p-r-hdr">
                 <div className="p-u-info">
-                  <a href="#">{User.displayName}</a> shared a memory with <a href="#">{User.displayName} </a>
+                  <a href="#">{UserProfile?.firstName} {UserProfile?.lastName}</a> shared a memory with <a href="#">{UserProfile?.firstName} </a>
                 </div>
                 <div className="p-dt">
                   <i className="material-icons">calendar_today</i>
