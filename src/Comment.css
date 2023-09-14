@@ -23,9 +23,14 @@
   
   .comment-actions {
     display: flex;
-    align-items: center;
     margin-top: 8px;
-  }
+    gap: 12px;
+    flex-direction: column;
+}
+.replying-comments .comment span.name {
+  font-size: 14px;
+  color: #6f6f6f;
+}
   
   .comment-actions button {
     background: none;

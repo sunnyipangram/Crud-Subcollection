@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { db } from '../FirebaseConfig';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
-import { collection, doc, updateDoc, deleteDoc, addDoc } from 'firebase/firestore';
-import { FaHeart, FaReply, FaEllipsisH, FaEdit, FaRemoveFormat } from 'react-icons/fa';
+import { collection, doc, updateDoc, deleteDoc, addDoc, getDoc } from 'firebase/firestore';
+import { FaHeart, FaReply, FaEdit } from 'react-icons/fa';
 import '../Comment.css';
-import { AiOutlineDelete, AiOutlineMore } from 'react-icons/ai';
+import { AiOutlineDelete } from 'react-icons/ai';
 import { useAppContext } from '../ContextApi/AppContext';
 import ReplyComponent from './ReplyComponents';
 
-const Comments = ({ postid, CommentCount, setCommentCount }) => {
+const Comments = ({ postid }) => {
   const query = collection(db, `Posts/${postid}/Comments`);
   const [docs, loading, error] = useCollectionData(query);
-  const { User,UserProfile } = useAppContext();
+  const { User } = useAppContext();
+  const [CommentUsers, setCommentUsers] = useState({});
 
   // State to track editing state
   const [editingComment, setEditingComment] = useState(null);
   const [newComment, setNewComment] = useState('');
-  
+
   // State to track whether the reply modal is open
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState('');
@@ -67,7 +68,7 @@ const Comments = ({ postid, CommentCount, setCommentCount }) => {
     if (!replyingTo || !replyText) return;
 
     const replyDocRef = collection(db, `Posts/${postid}/Comments/${replyingTo.id}/replies`);
-    
+
     // Create a new reply document
     await addDoc(replyDocRef, {
       comment: replyText,
@@ -82,76 +83,115 @@ const Comments = ({ postid, CommentCount, setCommentCount }) => {
     setReplyText('');
   };
 
+  useEffect(() => {
+    if (docs) {
+      // Fetch user data for each post concurrently
+      const fetchUserDataForComment = async (comment) => {
+        try {
+          const userDoc = await getDoc(doc(db, 'Users', comment.userId));
+          if (userDoc.exists()) {
+            return userDoc.data();
+          } else {
+            console.error('User document does not exist');
+            return {}; // Return an empty object as a default value
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
+          return {}; // Return an empty object as a default value
+        }
+      };
+
+      Promise.all(docs.map(fetchUserDataForComment))
+        .then((userDataArray) => {
+          // Create a map of user data with user IDs as keys
+          const commentUsersMap = userDataArray.reduce((acc, userData, index) => {
+            acc[docs[index].userId] = userData;
+            return acc;
+          }, {});
+          setCommentUsers(commentUsersMap);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data for comments:', error);
+        });
+    }
+  }, [docs]);
+
   return (
     <div className="comments">
-      {docs?.map((comment) => (
-        <div className="comment" key={comment.id}>
-          <img
-            src={comment.userProfile}
-            width={40}
-            className="rounded-image"
-            alt="User"
-          />
-          <div className="comment-content">
-            <span className="name">{comment.userName}</span>
-            {editingComment === comment ? (
-              <input
-                type="text"
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-              />
-            ) : (
-              <p className="comment-text">{comment.comment}</p>
-            )}
-            <div className="comment-actions">
+      {docs?.map((comment) => {
+        console.log(comment.userId, 'post');
+        const CommentUser = CommentUsers[comment.userId] || {}; // Get user data from the map
+        console.log(CommentUser, 'comment data');
+        return (
+          <div className="comment" key={comment.id}>
+            <img
+              src={CommentUser.profileImage}
+              width={40}
+              className="rounded-image"
+              alt="User"
+            />
+            <div className="comment-content">
+              <span className="name">{CommentUser.firstName} {CommentUser.lastName}</span>
               {editingComment === comment ? (
-                <>
-                  <button onClick={handleSaveEdit}>Save</button>
-                  <button onClick={handleCancelEdit}>Cancel</button>
-                </>
+                <input
+                  type="text"
+                  value={newComment}
+                  onChange={(e) => setNewComment(e.target.value)}
+                />
               ) : (
-                User.uid === comment.userId ? (
+                <p className="comment-text">{comment.comment}</p>
+              )}
+              <div className="comment-actions">
+                {editingComment === comment ? (
                   <>
-                    <button onClick={() => handleEditComment(comment)}>
-                      <FaEdit /> Edit
-                    </button>
-                    <button onClick={() => handleDeleteComment(comment)}>
-                      <AiOutlineDelete /> Delete
-                    </button>
-                    <button onClick={() => handleOpenReplyModal(comment)}>
-                      <FaReply /> Reply
-                    </button>
+                  <div className='comment-action-btn'>
+                    <button onClick={handleSaveEdit}>Save</button>
+                    <button onClick={handleCancelEdit}>Cancel</button>
+                    </div>
                   </>
                 ) : (
-                  <>
-                    <button onClick={() => handleOpenReplyModal(comment)}>
-                      <FaReply /> Reply
-                    </button>
-                    
-                  </>
-                )
-              )}
-
-              <div className="replying-comments">
-                
+                  User.uid === comment.userId ? (
+                    <>
+                    <div className="comment-action-btn">
+                      <button onClick={() => handleEditComment(comment)}>
+                        <FaEdit /> Edit
+                      </button>
+                      <button onClick={() => handleDeleteComment(comment)}>
+                        <AiOutlineDelete /> Delete
+                      </button>
+                      <button onClick={() => handleOpenReplyModal(comment)}>
+                        <FaReply /> Reply
+                      </button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <button onClick={() => handleOpenReplyModal(comment)}>
+                        <FaReply /> Reply
+                      </button>
+                    </>
+                  )
+                )}
+                <div className="replying-comments">
+                  <ReplyComponent postid={postid} commentid={comment.id} />
+                </div>
               </div>
             </div>
-            <ReplyComponent postid={postid} commentid={comment.id}/>
+            {/* Reply modal */}
+            {replyingTo === comment && (
+              <div className="reply-modal">
+                <textarea
+                  placeholder="Write your reply..."
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                />
+                <button onClick={handleSubmitReply}>Reply</button>
+                <button onClick={() => setReplyingTo(null)}>Cancel</button>
+              </div>
+            )}
           </div>
-          {/* Reply modal */}
-          {replyingTo === comment && (
-            <div className="reply-modal">
-              <textarea
-                placeholder="Write your reply..."
-                value={replyText}
-                onChange={(e) => setReplyText(e.target.value)}
-              />
-              <button onClick={handleSubmitReply}>Reply</button>
-              <button onClick={()=>setReplyingTo(null)}>Cancel</button>
-            </div>
-          )}
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 };

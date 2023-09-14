@@ -101,7 +101,7 @@ const EditProfileComponent = () => {
     <div className="container rounded bg-white mt-5">
       <div className="row">
         <div className="col-md-4 border-right">
-          <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src={UserProfile?.profileImage} width={90} /><span className="font-weight-bold">{UserProfile?.firstName + " "+ UserProfile?.lastName}</span><span className="text-black-50">{UserProfile?.contact}</span><span>{UserProfile?.age} Years Old</span></div>
+          <div className="d-flex flex-column align-items-center text-center p-3 py-5"><img className="rounded-circle mt-5" src={UserProfile?.profileImage} width={90} height={90} /><span className="font-weight-bold">{UserProfile?.firstName + " "+ UserProfile?.lastName}</span><span className="text-black-50">{UserProfile?.contact}</span><span>{UserProfile?.age} Years Old</span></div>
         </div>
         <div className="col-md-8">
           <div className="p-3 py-5">

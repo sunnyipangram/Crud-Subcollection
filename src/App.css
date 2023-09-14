@@ -306,6 +306,11 @@ input.add-hastag-input {
   margin-top: 10px;
   z-index: 10000;
 }
+.comment-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
 .reply-modal textarea {
   width: 100%;

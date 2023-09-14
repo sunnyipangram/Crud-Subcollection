@@ -1,20 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { db } from './FirebaseConfig'; // Make sure to import 'serverTimestamp'
-import { useCollectionData } from 'react-firebase-hooks/firestore'; // Import 'onSnapshot'
+import { db } from './FirebaseConfig';
+import { useCollectionData } from 'react-firebase-hooks/firestore';
 import AddComment from './Components/AddComment';
-import { doc, updateDoc, collection, deleteDoc, setDoc, getDoc,serverTimestamp,onSnapshot } from 'firebase/firestore';
+import { doc, updateDoc, collection, deleteDoc, setDoc, getDoc, serverTimestamp, onSnapshot } from 'firebase/firestore';
 import Comments from './Components/Comments';
 import { AiFillDelete, AiFillEdit, AiFillLike } from 'react-icons/ai';
 import { FaCommentAlt, FaRegEdit, FaRegTrashAlt, FaShareAlt } from 'react-icons/fa';
 import { useAppContext } from './ContextApi/AppContext';
 import CommentsNumber from './Components/CommentsNumber';
 import Sidebar from './Components/Sidebar';
+import UserName from './ExtractingData/UserName';
 
 const Post = () => {
   const query = collection(db, 'Posts');
   const [docs, loading, error] = useCollectionData(query);
-  const { User,UserProfile } = useAppContext();
+  const { User, UserProfile } = useAppContext();
   const [liked, setLiked] = useState({});
+  const [postUsers, setPostUsers] = useState({});
 
   useEffect(() => {
     if (User) {
@@ -134,22 +136,21 @@ const Post = () => {
 
   // Function to handle liking a post
   const handleLikePost = async (post) => {
-     console.log(post) ;
     if (post.userName) {
       const postLikesRef = doc(db, `Posts/${post.id}/Likes`, User.uid);
-  
+
       try {
         if (!liked[post.id]) {
           // The user hasn't liked the post yet, so add a like
           await setDoc(postLikesRef, {
             timestamp: serverTimestamp(),
-            user:post.userName,
+            user: post.userName,
           });
         } else {
           // The user has already liked the post, so unlike it
           await deleteDoc(postLikesRef);
         }
-  
+
         // Update the liked state
         setLiked({ ...liked, [post.id]: !liked[post.id] });
       } catch (error) {
@@ -160,40 +161,67 @@ const Post = () => {
       console.log('User is not logged in. Handle this case.');
     }
   };
-  
+
+  // Function to fetch user data for a post
+  const fetchUserDataForPost = async (post) => {
+    try {
+      const userDoc = await getDoc(doc(db, 'Users', post.user.id));
+      if (userDoc.exists()) {
+        return userDoc.data();
+      } else {
+        console.error('User document does not exist');
+        return {}; // Return an empty object as a default value
+      }
+    } catch (error) {
+      console.error('Error fetching user data:', error);
+      return {}; // Return an empty object as a default value
+    }
+  };
+
+  useEffect(() => {
+    if (docs) {
+      // Fetch user data for each post concurrently
+      Promise.all(docs.map(fetchUserDataForPost))
+        .then((userDataArray) => {
+          // Create a map of user data with post IDs as keys
+          const userDataMap = userDataArray.reduce((acc, userData, index) => {
+            acc[docs[index].id] = userData;
+            return acc;
+          }, {});
+          setPostUsers(userDataMap);
+        })
+        .catch((error) => {
+          console.error('Error fetching user data for posts:', error);
+        });
+    }
+  }, [docs]);
 
   return (
     <div className="container mt-5 mb-5">
       <div className="row d-flex  justify-content-center">
         <div className="col-md-3">
-          <Sidebar/>
+          <Sidebar />
         </div>
+
         <div className="col-md-6">
           {docs?.map((post) => {
-            console.log(post.user.profileImage,'post')
+            console.log(post.user.id, 'post');
+            const PostUser = postUsers[post.id] || {}; // Get user data from the map
+            console.log(PostUser, 'user dataddd');
             return (
               <div className="card custom-card" key={post.id}>
                 <div className="user-info">
                   <div className="user-avatar">
-                    <img
-                      src={post.user.profileImage}
-                      width={50}
-                      className="rounded-circle"
-                      alt="User"
-                    />
+                    <img src={PostUser.profileImage} width={50} height={50} className="rounded-circle" alt="User" />
                   </div>
                   <div className="user-details">
-                    <span className="font-weight-bold">{post.user.firstName} {post.user.lastName}</span>
+                    <span className="font-weight-bold">{PostUser.firstName} {PostUser.lastName}</span>
                   </div>
                 </div>
                 <div className="timestamp">
                   <small>{getTimeAgo(post.timestamp)}</small>
                 </div>
-                <img
-                  src={post.image}
-                  className="img-fluid"
-                  alt="Post"
-                />
+                <img src={post.image} className="img-fluid" alt="Post" />
                 <div className="p-2">
                   <p className="text-justify">
                     {editingPost === post ? (
@@ -219,6 +247,7 @@ const Post = () => {
                       <span className="post-content">{post.detail}</span>
                     )}
                   </p>
+
                   <div className="action-buttons">
                     {editingPost === post ? (
                       <>
@@ -227,29 +256,35 @@ const Post = () => {
                       </>
                     ) : (
                       <>
-                      <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
-                        <span
-                          onClick={() => handleLikePost(post)}
-                          className={`btn-like ${liked[post.id] ? 'liked' : ''}`}
-                        >
-                          <AiFillLike /> Like
-                        </span>
-                        <CommentsNumber id={post.id} />
-                        <FaCommentAlt />
-                        <span className="ml-2 share-btn">
-                          <FaShareAlt /> Share
-                        </span>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                          <span
+                            onClick={() => handleLikePost(post)}
+                            className={`btn-like ${liked[post.id] ? 'liked' : ''}`}
+                          >
+                            <AiFillLike /> Like
+                          </span>
+                          <CommentsNumber id={post.id} />
+                          <FaCommentAlt />
+                          <span className="ml-2 share-btn">
+                            <FaShareAlt /> Share
+                          </span>
                         </div>
                       </>
                     )}
                     <div>
-                      {User.uid==post.user.id?<> <button onClick={() => handleEditPost(post)} className="btn-edit">
-                        <FaRegEdit />
-                      </button>
-                      <button onClick={() => handleDeletePost(post)} className="btn-delete">
-                        <FaRegTrashAlt />
-                      </button></>:<p style={{color:'red'}}>No Access To Delete</p>}
-                     
+                      {User.uid === post.user.id ? (
+                        <>
+                          {' '}
+                          <button onClick={() => handleEditPost(post)} className="btn-edit">
+                            <FaRegEdit />
+                          </button>
+                          <button onClick={() => handleDeletePost(post)} className="btn-delete">
+                            <FaRegTrashAlt />
+                          </button>
+                        </>
+                      ) : (
+                        <p style={{ color: 'red' }}>*No Access To Edit or Delete Post</p>
+                      )}
                     </div>
                   </div>
                   <hr />
