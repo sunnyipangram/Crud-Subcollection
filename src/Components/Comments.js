@@ -21,6 +21,7 @@ const Comments = ({ postid }) => {
   // State to track whether the reply modal is open
   const [replyingTo, setReplyingTo] = useState(null);
   const [replyText, setReplyText] = useState('');
+  const {UserProfile}=useAppContext()
 
   // Function to handle editing a comment
   const handleEditComment = (comment) => {
@@ -83,6 +84,7 @@ const Comments = ({ postid }) => {
     setReplyText('');
   };
 
+
   useEffect(() => {
     if (docs) {
       // Fetch user data for each post concurrently
@@ -114,14 +116,14 @@ const Comments = ({ postid }) => {
           console.error('Error fetching user data for comments:', error);
         });
     }
-  }, [docs]);
+  }, [docs,UserProfile]);
 
   return (
     <div className="comments">
       {docs?.map((comment) => {
-        console.log(comment.userId, 'post');
-        const CommentUser = CommentUsers[comment.userId] || {}; // Get user data from the map
-        console.log(CommentUser, 'comment data');
+       
+       const  CommentUser = CommentUsers[comment.userId] || {}; // Get user data from the map
+        console.log(CommentUser)
         return (
           <div className="comment" key={comment.id}>
             <img

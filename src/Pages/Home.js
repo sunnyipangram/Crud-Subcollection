@@ -58,7 +58,7 @@ const Home = () => {
       >
         <AddNew path={'Posts'} />
       </Modal>
-    <EditProfileComponent/>
+    {/* <EditProfileComponent/> */}
             <Navbar/>
             {/* <UsersDataGet/> */}
             

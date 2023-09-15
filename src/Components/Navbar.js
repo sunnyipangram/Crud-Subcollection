@@ -1,10 +1,13 @@
 import React from 'react'
 import { useAppContext } from '../ContextApi/AppContext'
 import '../Css/Navbar.css'
-import { FaArrowAltCircleDown, FaBell, FaFacebook, FaFacebookMessenger, FaFortAwesome, FaGamepad, FaHome, FaSearch, FaStreetView, FaTv, FaUserAlt, FaUserCog, FaUserFriends, FaViadeoSquare } from 'react-icons/fa'
-import { AiFillFileAdd, AiFillHome, AiFillNotification, AiFillPlusCircle, AiFillPlusSquare, AiOutlineCloudUpload, AiOutlineFullscreenExit, AiOutlineLogout, AiOutlinePlus, AiOutlineUser, AiOutlineUsergroupDelete, AiOutlineVideoCameraAdd, AiTwotonePlusCircle } from 'react-icons/ai'
+import { FaArrowAltCircleDown, FaBell, FaFacebook, FaFacebookMessenger, FaFileVideo, FaFortAwesome, FaGamepad, FaHome, FaSearch, FaStreetView, FaTv, FaUserAlt, FaUserCog, FaUserEdit, FaUserFriends, FaViadeoSquare, FaVideoSlash } from 'react-icons/fa'
+import { AiFillFileAdd, AiFillHome, AiFillNotification, AiFillPlusCircle, AiFillPlusSquare, AiOutlineCloudUpload, AiOutlineFullscreenExit, AiOutlineLogout, AiOutlineMore, AiOutlinePauseCircle, AiOutlinePlus, AiOutlineUser, AiOutlineUsergroupDelete, AiOutlineVideoCameraAdd, AiTwotonePlusCircle, AiTwotoneVideoCamera } from 'react-icons/ai'
 import { Avatar } from 'antd'
-import { NavLink } from 'react-router-dom'
+import { NavLink,Link } from 'react-router-dom'
+import { MdOndemandVideo } from "react-icons/md";
+
+import { BrightnessMediumTwoTone } from '@mui/icons-material'
 
 const Navbar = () => {
     const {User,handleLogout,setOpen,UserProfile}=useAppContext()
@@ -33,18 +36,24 @@ width:" 100%",
 
     </div>
     <div className="header-middle">
+      <NavLink to={'/'}>
       <div className="header-option  header__option--active">
      <FaHome  fontSize='large'/>
      </div>
+     </NavLink>
+     <NavLink to={'/editprofile'}>
     < div className="header-option">
-     <AiOutlineVideoCameraAdd  fontSize='large'/>
+     <FaUserEdit  fontSize='large'/>
      </div>
-     < div className="header-option" onClick={()=>setOpen(true)}>
-     <AiFillPlusSquare fontSize='large' />
+     </NavLink>
+     < div className="header-option" >
+     <AiOutlinePauseCircle fontSize='large' />
      </div>
+     <NavLink to={'/videofeed'}>
      < div className="header-option">
-     <FaStreetView  fontSize='large'/>
+     <MdOndemandVideo  fontSize='large'/>
      </div>
+     </NavLink>
 
 
      

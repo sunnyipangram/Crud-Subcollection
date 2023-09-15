@@ -4,6 +4,8 @@ import { useAppContext } from '../ContextApi/AppContext'
 import { collection } from 'firebase/firestore'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
 import { db } from '../FirebaseConfig'
+import Navbar from './Navbar'
+import ProfilePost from './ProfilePost'
 
 const Profile = () => {
 
@@ -28,7 +30,7 @@ const Profile = () => {
   return (
     <main className='profile'>
   
-  <header>
+  {/* <header>
     <div className="tb">
       <div className="td" id="logo">
         <a href="#"><i className="fab fa-facebook-square" /></a>
@@ -57,7 +59,8 @@ const Profile = () => {
         </div>
       </div>
     </div>
-  </header>
+  </header> */}
+  <Navbar/>
   <div id="profile-upper">
     <div id="profile-banner-image">
       <img src="https://imagizer.imageshack.com/img921/9628/VIaL8H.jpg" alt="Banner image" />
@@ -171,6 +174,7 @@ const Profile = () => {
           </div>
         </div>
         <div>
+          <ProfilePost UserProfile={UserProfile} UserPosts={UserPosts}/>
           <div className="post">
             <div className="tb">
               <a href="#" className="td p-p-pic"><img src={UserProfile?.profileImage} alt="Rajeev's profile pic" /></a>

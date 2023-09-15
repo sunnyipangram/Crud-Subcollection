@@ -3,24 +3,24 @@ import { db, storage } from '../FirebaseConfig';
 import { collection, addDoc, DocumentReference, setDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
-import { FaRegImages, FaUpload } from 'react-icons/fa';
+import { FaRegImages, FaRegFileVideo, FaUpload } from 'react-icons/fa';
 import { useAppContext } from '../ContextApi/AppContext';
 
 const AddNew = ({ path }) => {
   const title = useRef();
   const postDetail = useRef();
   const hashtags = useRef();
-  const imageInput = useRef();
-  const [imageUrl, setImageUrl] = useState('');
+  const mediaInput = useRef();
+  const [mediaUrl, setMediaUrl] = useState('');
   const [progressPercent, setProgressPercent] = useState(0);
-  const {User,UserProfile}=useAppContext()
-  // console.log(User )
+  const [mediaType, setMediaType] = useState(''); // Store media type (image or video)
+  const { User, UserProfile, setOpen } = useAppContext();
 
-  const handleImageUpload = async () => {
-    const file = imageInput.current.files[0];
+  const handleMediaUpload = async () => {
+    const file = mediaInput.current.files[0];
     if (file) {
-      const imgId = uuidv4();
-      const storageRef = ref(storage, `postImages/${imgId}`);
+      const mediaId = uuidv4();
+      const storageRef = ref(storage, `mediaFiles/${mediaId}`);
       const uploadTask = uploadBytesResumable(storageRef, file);
 
       uploadTask.on(
@@ -30,47 +30,56 @@ const AddNew = ({ path }) => {
           setProgressPercent(progress);
         },
         (error) => {
-          console.error('Error uploading image: ', error);
+          console.error('Error uploading media: ', error);
         },
         async () => {
           // Upload complete, get the download URL
           const downloadURL = await getDownloadURL(storageRef);
-         await setImageUrl(downloadURL);
-          // console.log(downloadURL)
-          // console.log(imageUrl)
+          setMediaUrl(downloadURL);
+
+          // Determine media type
+          if (file.type.startsWith('image')) {
+            setMediaType('image');
+          } else if (file.type.startsWith('video')) {
+            setMediaType('video');
+          }
         }
       );
     } else {
-      alert('Please provide a file');
+      alert('Please provide a media file');
     }
   };
- 
+
   const handleSubmitTask = async (e) => {
     e.preventDefault();
 
     // API call
-    if(imageUrl===null){return alert('please add image') }
+    if (mediaUrl === '') {
+      return alert('Please add media (image or video)');
+    }
     const uniqueId = uuidv4();
-   const docRef=doc(db,path,uniqueId)
+    const docRef = doc(db, path, uniqueId);
 
     try {
       await setDoc(docRef, {
         title: title.current.value,
         detail: postDetail.current.value,
         hashTag: hashtags.current.value.split(','),
-        image: imageUrl,
+        media: mediaUrl,
+        mediaType: mediaType, // Store media type
         id: uniqueId,
-        timestamp: new Date(), // Store the timestamp
-       user:UserProfile
-        
+        timestamp: new Date(),
+        user: UserProfile,
       });
 
-      // Clear form values and image URL
+      // Clear form values and media URL
       title.current.value = '';
       postDetail.current.value = '';
       hashtags.current.value = '';
-      setImageUrl(null);
-      alert("post Successfully created")
+      setMediaUrl('');
+      setMediaType('');
+      alert('Post successfully created');
+      setOpen(false);
     } catch (error) {
       console.error('Error adding document: ', error);
     }
@@ -78,35 +87,40 @@ const AddNew = ({ path }) => {
 
   return (
     <div className="add-post-form">
-    <form action="" onSubmit={handleSubmitTask}>
-      <input className="add-post-input" placeholder="Add Title..." type="text" ref={title} />
-      <input className="add-post-textarea" placeholder="Add Post Content..." type="text" ref={postDetail} />
-      <input placeholder="Add Hashtags (comma-separated)" className='add-hastag-input' type="text" ref={hashtags} />
-      <label htmlFor="image-upload" className="add-post-image-label">
-    <input
-      id="image-upload"
-      type="file"
-      accept="image/*"
-      onChange={handleImageUpload}
-      ref={imageInput}
-      className="add-post-image-input"
-    />
-    <FaRegImages className="icon" /> Upload Image
-  </label>
-  {imageUrl && (
-    <img
-      src={imageUrl}
-      alt="Uploaded"
-      className="add-post-image-preview"
-    />
-  )}
-  {progressPercent > 0 && (
-    <div>Uploading: {progressPercent.toFixed(2)}%</div>
-  )}
-  <button type="submit" className="add-post-submit">
-    Post <FaUpload />
-  </button>
-  </form>
+      <form action="" onSubmit={handleSubmitTask}>
+        <input className="add-post-input" placeholder="Add Title..." type="text" ref={title} />
+        <input className="add-post-textarea" placeholder="Add Post Content..." type="text" ref={postDetail} />
+        <input placeholder="Add Hashtags (comma-separated)" className='add-hastag-input' type="text" ref={hashtags} />
+        <label htmlFor="media-upload" className="add-post-media-label">
+          <input
+            id="media-upload"
+            type="file"
+            accept="image/*,video/*"
+            onChange={handleMediaUpload}
+            ref={mediaInput}
+            className="add-post-media-input"
+          />
+          <FaRegImages className="icon" /> Upload Image / <FaRegFileVideo className="icon" /> Upload Video
+        </label>
+        {mediaUrl && (
+          <>
+            {mediaType === 'image' ? (
+              <img src={mediaUrl} alt="Uploaded" className="add-post-media-preview" style={{height:'100px'}} />
+            ) : (
+              <video controls src={mediaUrl} style={{height:'100px'}} className="add-post-media-preview"></video>
+            )}
+          </>
+        )}
+        {progressPercent > 0 && (
+          <div>
+            Uploading: {progressPercent.toFixed(2)}%
+            <progress value={progressPercent} max="100"></progress>
+          </div>
+        )}
+        <button type="submit" className="add-post-submit">
+          Post <FaUpload />
+        </button>
+      </form>
     </div>
   );
 };

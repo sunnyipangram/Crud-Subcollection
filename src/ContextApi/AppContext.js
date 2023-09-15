@@ -22,7 +22,7 @@ const AppContextProvider = ({ children }) => {
         setUser(user);
         const docRef = doc(db, 'Users', user.uid); // Use 'user.uid' directly
         const docSnap = await getDoc(docRef);
-        console.log(docSnap.data(), "user data"); // Access the user data
+        // console.log(docSnap.data(), "user data"); // Access the user data
 
         if (docSnap.exists()) {
           // If the document exists, it means the user profile is already updated.
@@ -63,7 +63,7 @@ const AppContextProvider = ({ children }) => {
 
   return (
     <AppContext.Provider
-      value={{ CommentCount, setCommentCount, User, setUser, handleLogout, open, setOpen, UserProfile }}
+      value={{ CommentCount, setCommentCount, User, setUser, handleLogout, open, setOpen, UserProfile,setUserProfile }}
     >
       {children}
     </AppContext.Provider>

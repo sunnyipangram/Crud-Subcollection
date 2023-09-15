@@ -2,6 +2,7 @@ import { collection, doc, getDoc } from 'firebase/firestore'
 import React, { useEffect, useState } from 'react'
 import { db } from '../FirebaseConfig'
 import { useCollectionData } from 'react-firebase-hooks/firestore'
+import { useAppContext } from '../ContextApi/AppContext'
 
 const ReplyComponent = ({commentid,postid}) => {
     // console.log(commentid,postid)
@@ -9,6 +10,7 @@ const ReplyComponent = ({commentid,postid}) => {
     const [Replies,error,loading]=useCollectionData(query)
     // console.log(Replies)
     const [ReplyUsers, setReplyUsers] = useState({})
+    const {UserProfile}=useAppContext()
 
 
     useEffect(() => {
@@ -28,7 +30,7 @@ const ReplyComponent = ({commentid,postid}) => {
             return {}; // Return an empty object as a default value
           }
         };
-  
+    
         Promise.all(Replies.map(fetchUserDataForComment))
           .then((userDataArray) => {
             // Create a map of user data with user IDs as keys
@@ -36,22 +38,33 @@ const ReplyComponent = ({commentid,postid}) => {
               acc[Replies[index].userId] = userData;
               return acc;
             }, {});
-            setReplyUsers(commentUsersMap);
+    
+            // Check if commentUsersMap is different from the current state before updating
+            const isDifferent = Object.keys(commentUsersMap).some(
+              (userId) => commentUsersMap[userId] !== ReplyUsers[userId]
+            );
+    
+            if (isDifferent) {
+              setReplyUsers(commentUsersMap);
+            }
           })
           .catch((error) => {
             console.error('Error fetching user data for comments:', error);
           });
       }
-    }, [Replies]);
+    }, [Replies,UserProfile]);
+    
+
 
   return (
     <>
 
     {Replies?.map((comment) => {
       // console.log(comment,'reply')
-      console.log(comment.userId, 'post');
+      
       const ReplyUser = ReplyUsers[comment.userId] || {}; // Get user data from the map
-      console.log(ReplyUser, 'reply data');
+      console.log(ReplyUsers)
+   
       return(
         <div className="comment" key={comment.id}>
           <img

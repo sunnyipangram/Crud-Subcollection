@@ -26,6 +26,8 @@ const Auth = () => {
           gender:null,
           profileImage:'',
           contact:null,
+          location:null,
+          bio:null,
           
   
          });
@@ -40,6 +42,8 @@ const Auth = () => {
     gender: UserProfile.gender,
     contact: UserProfile.contact,
     profileImage: UserProfile.profileImage,
+    location:UserProfile?.location,
+    bio:UserProfile?.bio
         })
       }
     

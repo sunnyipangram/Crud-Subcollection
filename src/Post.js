@@ -10,13 +10,15 @@ import { useAppContext } from './ContextApi/AppContext';
 import CommentsNumber from './Components/CommentsNumber';
 import Sidebar from './Components/Sidebar';
 import UserName from './ExtractingData/UserName';
+import StyledNewPost from './Components/StyledNewPost';
 
 const Post = () => {
   const query = collection(db, 'Posts');
   const [docs, loading, error] = useCollectionData(query);
-  const { User, UserProfile } = useAppContext();
+  const { User, UserProfile, setUserProfile} = useAppContext();
   const [liked, setLiked] = useState({});
   const [postUsers, setPostUsers] = useState({});
+
 
   useEffect(() => {
     if (User) {
@@ -35,7 +37,21 @@ const Post = () => {
         unsubscribe();
       };
     }
-  }, [User]);
+    if (UserProfile) {
+      // Fetch the posts based on the updated user profile data
+      const userPostsQuery = collection(db, 'Posts').where('user.id', '==', UserProfile.uid);
+      const unsubscribe = onSnapshot(userPostsQuery, (snapshot) => {
+        const updatedPosts = snapshot.docs.map((doc) => doc.data());
+        // Update your state with the updated posts
+        setDoc(updatedPosts);
+      });
+
+      return () => {
+        // Unsubscribe from the snapshot listener
+        unsubscribe();
+      };
+    }
+  }, [User,UserProfile]);
 
   // Function to calculate the time difference in minutes
   const getTimeAgo = (timestamp) => {
@@ -70,6 +86,7 @@ const Post = () => {
       }
     }
   };
+
 
   // State to track editing state
   const [editingPost, setEditingPost] = useState(null);
@@ -177,6 +194,9 @@ const Post = () => {
       return {}; // Return an empty object as a default value
     }
   };
+  useEffect(()=>{
+fetchUserDataForPost()
+  },[User,UserProfile])
 
   useEffect(() => {
     if (docs) {
@@ -194,20 +214,26 @@ const Post = () => {
           console.error('Error fetching user data for posts:', error);
         });
     }
-  }, [docs]);
+  }, [docs,UserProfile,User]);
+  console.log(User)
+  
 
   return (
     <div className="container mt-5 mb-5">
+     
       <div className="row d-flex  justify-content-center">
         <div className="col-md-3">
           <Sidebar />
         </div>
 
         <div className="col-md-6">
+        <StyledNewPost UserProfile={UserProfile}/>
           {docs?.map((post) => {
-            console.log(post.user.id, 'post');
+         
             const PostUser = postUsers[post.id] || {}; // Get user data from the map
-            console.log(PostUser, 'user dataddd');
+           console.log(post)
+            
+           
             return (
               <div className="card custom-card" key={post.id}>
                 <div className="user-info">
@@ -221,7 +247,10 @@ const Post = () => {
                 <div className="timestamp">
                   <small>{getTimeAgo(post.timestamp)}</small>
                 </div>
-                <img src={post.image} className="img-fluid" alt="Post" />
+             {post.mediaType==="video" &&              <video controls src={post.media} style={{height:'auto',width:'100%'}} className="add-post-media-preview"></video>} 
+             {post.mediaType==="image" &&               <img src={post.media} className="img-fluid" alt="Post" />} 
+
+               {/* <img src={post.image} className="img-fluid" alt="Post" /> */}
                 <div className="p-2">
                   <p className="text-justify">
                     {editingPost === post ? (

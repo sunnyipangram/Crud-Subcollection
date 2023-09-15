@@ -17,6 +17,7 @@ import { useAppContext } from './ContextApi/AppContext';
 import { BrowserRouter, Routes,Route } from 'react-router-dom';
 import ProfilePage from './Pages/ProfilePage';
 import EditProfile from './Pages/EditProfile';
+import VideoFeed from './Pages/VideoFeed';
 
 
 
@@ -32,7 +33,7 @@ function App() {
 
  const {User} = useAppContext(null)
 
- console.log(User)
+//  console.log(User)
  
 
 
@@ -59,6 +60,7 @@ function App() {
         <Route path="/" element={ <Home/>}></Route>
         <Route path="/profile" element={ <ProfilePage/>}></Route>
         <Route path="/editProfile" element={ <EditProfile/>}></Route>
+        <Route path="/videofeed" element={ <VideoFeed/>}></Route>
          </Routes>
       
      }

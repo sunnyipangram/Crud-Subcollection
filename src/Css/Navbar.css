@@ -71,15 +71,19 @@
    
 }
 
-.header__option--active::after{
+.header-middle a.active .header-option::after{
     content: '';
     position: absolute;
     bottom: -10px;
     left: 0;
     height: 3px;
     width: 100%;
+    
     background-color: #1877f2;
     border-radius: 5px;
+}
+.header-middle a.active .header-option{
+    color: #1673a1;
 }
 .header-right {
     display: flex;
