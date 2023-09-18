@@ -1,7 +1,7 @@
 import { collection } from 'firebase/firestore'
 import React from 'react'
 import { db } from '../FirebaseConfig'
-import { useCollection, useCollectionData } from 'react-firebase-hooks/firestore'
+import {  useCollectionData } from 'react-firebase-hooks/firestore'
 import { AiFillLike } from 'react-icons/ai'
 
 const AddLike = ({id}) => {

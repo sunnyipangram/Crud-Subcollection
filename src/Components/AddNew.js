@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { db, storage } from '../FirebaseConfig';
-import { collection, addDoc, DocumentReference, setDoc, doc } from 'firebase/firestore';
+import {  setDoc, doc } from 'firebase/firestore';
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { FaRegImages, FaRegFileVideo, FaUpload } from 'react-icons/fa';

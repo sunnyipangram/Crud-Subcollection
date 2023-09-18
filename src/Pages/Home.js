@@ -7,8 +7,7 @@ import { auth, db } from '../FirebaseConfig';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { useAppContext } from '../ContextApi/AppContext';
 import Navbar from '../Components/Navbar';
-import UsersDataGet from '../Components/UsersDataGet';
-import EditProfileComponent from '../Components/EditProfileComponent';
+
 
 
 

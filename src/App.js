@@ -18,6 +18,7 @@ import { BrowserRouter, Routes,Route } from 'react-router-dom';
 import ProfilePage from './Pages/ProfilePage';
 import EditProfile from './Pages/EditProfile';
 import VideoFeed from './Pages/VideoFeed';
+import LoginForm from './Pages/LoginWithForm';
 
 
 
@@ -53,6 +54,7 @@ function App() {
       {User===null?
        <Routes>
       <Route path="/" element={ <Auth/>}></Route>
+      <Route path="/login" element={ <LoginForm/>}></Route>
       </Routes>
       : 
       

@@ -1,13 +1,13 @@
 import React from 'react'
 import { useAppContext } from '../ContextApi/AppContext'
 import '../Css/Navbar.css'
-import { FaArrowAltCircleDown, FaBell, FaFacebook, FaFacebookMessenger, FaFileVideo, FaFortAwesome, FaGamepad, FaHome, FaSearch, FaStreetView, FaTv, FaUserAlt, FaUserCog, FaUserEdit, FaUserFriends, FaViadeoSquare, FaVideoSlash } from 'react-icons/fa'
-import { AiFillFileAdd, AiFillHome, AiFillNotification, AiFillPlusCircle, AiFillPlusSquare, AiOutlineCloudUpload, AiOutlineFullscreenExit, AiOutlineLogout, AiOutlineMore, AiOutlinePauseCircle, AiOutlinePlus, AiOutlineUser, AiOutlineUsergroupDelete, AiOutlineVideoCameraAdd, AiTwotonePlusCircle, AiTwotoneVideoCamera } from 'react-icons/ai'
+import {  FaFacebookMessenger, FaHome, FaSearch,  FaUserEdit, } from 'react-icons/fa'
+import {  AiFillNotification, AiOutlineLogout, AiOutlinePauseCircle} from 'react-icons/ai'
 import { Avatar } from 'antd'
 import { NavLink,Link } from 'react-router-dom'
 import { MdOndemandVideo } from "react-icons/md";
 
-import { BrightnessMediumTwoTone } from '@mui/icons-material'
+
 
 const Navbar = () => {
     const {User,handleLogout,setOpen,UserProfile}=useAppContext()

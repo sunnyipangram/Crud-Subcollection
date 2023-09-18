@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { db } from '../FirebaseConfig';
 import { collection, deleteDoc, doc, updateDoc } from 'firebase/firestore';
-import {AiFillDelete,AiFillEdit} from 'react-icons/ai'
+
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+
 import Modal from '@mui/material/Modal';
 
 const style = {

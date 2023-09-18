@@ -2,7 +2,6 @@ import { doc, setDoc } from 'firebase/firestore';
 import React, { useRef } from 'react'
 import { db } from '../FirebaseConfig';
 import { v4 as uuidv4 } from 'uuid';
-import { AiOutlineComment } from 'react-icons/ai';
 import { FaComment } from 'react-icons/fa';
 import { useAppContext } from '../ContextApi/AppContext';
 

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { db } from '../FirebaseConfig';
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { collection, doc, updateDoc, deleteDoc, addDoc, getDoc } from 'firebase/firestore';
-import { FaHeart, FaReply, FaEdit } from 'react-icons/fa';
+import {  FaReply, FaEdit } from 'react-icons/fa';
 import '../Comment.css';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { useAppContext } from '../ContextApi/AppContext';

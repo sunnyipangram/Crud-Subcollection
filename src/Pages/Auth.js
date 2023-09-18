@@ -3,7 +3,8 @@ import { signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { auth, db, googleProvider } from '../FirebaseConfig';
 import { collection, doc, setDoc } from 'firebase/firestore';
 import { useAppContext } from '../ContextApi/AppContext';
-import { useCollectionData, useDocumentData } from 'react-firebase-hooks/firestore';
+import SignUpWithForm from '../Components/SignUpWithForm';
+
 
 const Auth = () => {
  const{UserProfile}=useAppContext()
@@ -56,6 +57,8 @@ const Auth = () => {
   };
 
   return (
+    <>
+    <SignUpWithForm/>
     <div className="google-btn-container">
       <button className="button" onClick={signInWithGoogle}>
       <svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid" viewBox="0 0 256 262">
@@ -67,6 +70,7 @@ const Auth = () => {
         Continue with Google
       </button>
     </div>
+    </>
   );
 };
 
