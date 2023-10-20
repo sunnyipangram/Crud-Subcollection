@@ -14,7 +14,9 @@ const Profile = () => {
 
   const query=collection(db,'Posts')
   const [docs,loading,error]=useCollectionData(query)
-  console.log(docs,"all posts")
+
+  console.log(User.auth.currentUser)
+ 
 
   const filteredPosts = docs?.filter((post) => post.user.id === UserProfile.id);
 

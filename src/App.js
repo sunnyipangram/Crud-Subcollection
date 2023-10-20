@@ -19,6 +19,8 @@ import ProfilePage from './Pages/ProfilePage';
 import EditProfile from './Pages/EditProfile';
 import VideoFeed from './Pages/VideoFeed';
 import LoginForm from './Pages/LoginWithForm';
+import Dsa1 from './PracticeDsa/Dsa1';
+import Dsa3 from './PracticeDsa/Dsa3';
 
 
 
@@ -48,6 +50,9 @@ function App() {
   
 
   return (
+    <>
+    {/* <Dsa1/> */}
+    {/* <Dsa3/> */}
     <BrowserRouter>
     <div className="App">
    
@@ -116,6 +121,7 @@ function App() {
       
     </div>
     </BrowserRouter>
+    </>
   );
 }
 

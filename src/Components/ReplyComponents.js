@@ -63,7 +63,7 @@ const ReplyComponent = ({commentid,postid}) => {
       // console.log(comment,'reply')
       
       const ReplyUser = ReplyUsers[comment.userId] || {}; // Get user data from the map
-      console.log(ReplyUsers)
+     
    
       return(
         <div className="comment" key={comment.id}>

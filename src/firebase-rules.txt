@@ -1,0 +1,48 @@
+allow get,
+allow list,
+create,
+update,
+delete
+
+
+match /database/{databaseName}/documents{
+    match /product/{productId}{
+        allow read : isSignedIn(),
+        allow delete: if request.auth !=null;
+        allow write: if isOwner(userId); && emailVerified();
+        allow update:if existingData().locked==false;
+        allow update:if incomingData().price>10; // it updates data only when incoming data price is greater than 10;
+        allow update :if getUserData().roles.keys().hasAny(['editor', 'admin']) // also can use hasAll
+        allow write : if request.time<resource.data.createdAt + duration.value(60,'s')
+}
+
+functions //
+
+function emailVerified() {
+    return request.auth.token.email_verified;
+}
+function isOwner(userId){
+   return request.auth.id == userId 
+}
+
+function isSignedIn(){
+
+    return request.auth !=null;
+
+}
+
+
+for getting existing data from database//
+function existingData(){
+    return request.resource.data
+
+}
+
+// function for getting userData 
+function getUserData(){
+    return get(/databases/$(database)/documents/users/$(request.auth.uid)).data
+}
+}
+
+
+

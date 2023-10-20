@@ -18,6 +18,7 @@ const Post = () => {
   const { User, UserProfile, setUserProfile} = useAppContext();
   const [liked, setLiked] = useState({});
   const [postUsers, setPostUsers] = useState({});
+  // console.log(docs[0])
 
 
   useEffect(() => {
@@ -215,7 +216,7 @@ fetchUserDataForPost()
         });
     }
   }, [docs,UserProfile,User]);
-  console.log(User)
+ 
   
 
   return (
@@ -231,7 +232,7 @@ fetchUserDataForPost()
           {docs?.map((post) => {
          
             const PostUser = postUsers[post.id] || {}; // Get user data from the map
-           console.log(post)
+          
             
            
             return (
@@ -303,7 +304,7 @@ fetchUserDataForPost()
                     <div>
                       {User.uid === post.user.id ? (
                         <>
-                          {' '}
+                         
                           <button onClick={() => handleEditPost(post)} className="btn-edit">
                             <FaRegEdit />
                           </button>
@@ -312,7 +313,15 @@ fetchUserDataForPost()
                           </button>
                         </>
                       ) : (
-                        <p style={{ color: 'red' }}>*No Access To Edit or Delete Post</p>
+                        <>
+                         
+                          <button onClick={() => handleEditPost(post)} className="btn-edit">
+                            <FaRegEdit />
+                          </button>
+                          <button onClick={() => handleDeletePost(post)} className="btn-delete">
+                            <FaRegTrashAlt />
+                          </button>
+                        </>
                       )}
                     </div>
                   </div>

@@ -3,7 +3,7 @@ import '../Css/Profile.css'
 import { useAppContext } from '../ContextApi/AppContext'
 
 const StyledNewPost = ({UserProfile}) => {
-    console.log(UserProfile,'user profile')
+   
     const {setOpen}=useAppContext()
 
   return (

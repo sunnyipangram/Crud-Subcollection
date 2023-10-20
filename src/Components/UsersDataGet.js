@@ -10,7 +10,7 @@ const UsersDataGet = () => {
 
     const query=doc(db,'Users',User.uid)
     const [users,loading,error]=useDocumentData(query)
-    console.log(users)
+
 
   return (
     <div>UsersDataGet</div>

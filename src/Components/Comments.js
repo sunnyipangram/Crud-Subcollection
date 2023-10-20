@@ -123,7 +123,7 @@ const Comments = ({ postid }) => {
       {docs?.map((comment) => {
        
        const  CommentUser = CommentUsers[comment.userId] || {}; // Get user data from the map
-        console.log(CommentUser)
+      
         return (
           <div className="comment" key={comment.id}>
             <img

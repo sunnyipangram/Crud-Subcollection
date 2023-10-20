@@ -8,7 +8,7 @@ const ProfilePost = ({UserProfile,UserPosts},props) => {
   return (
     <>
     {UserPosts?.map((post)=>{
-      console.log(post)
+    
       return(
         <div className="card custom-card">
         <div className="user-info">
