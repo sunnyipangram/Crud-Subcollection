@@ -310,6 +310,7 @@ input.add-hastag-input {
   display: flex;
   align-items: center;
   gap: 10px;
+  background: #72c491;
 }
 
 .reply-modal textarea {

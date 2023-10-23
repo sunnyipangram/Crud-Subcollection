@@ -168,9 +168,17 @@ const Comments = ({ postid }) => {
                     </>
                   ) : (
                     <>
+                     <div className="comment-action-btn">
+                      <button onClick={() => handleEditComment(comment)}>
+                        <FaEdit /> Edit
+                      </button>
+                      <button onClick={() => handleDeleteComment(comment)}>
+                        <AiOutlineDelete /> Delete
+                      </button>
                       <button onClick={() => handleOpenReplyModal(comment)}>
                         <FaReply /> Reply
                       </button>
+                      </div>
                     </>
                   )
                 )}

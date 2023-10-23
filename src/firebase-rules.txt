@@ -46,3 +46,64 @@ function getUserData(){
 
 
 
+
+
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /Posts/{postId}{
+      allow read :if isSignedIn();
+      allow write: if isSignedIn()
+      // && isPostOwner(postId)
+      
+            match/Comments/{commentId}{
+
+             allow read :if isSignedIn();
+            allow write: if isSignedIn();
+             allow update,delete:  if   isOwner(commentId) && !isSignedIn();
+
+                      match/replies/{replyId}{
+
+                     allow read :if isSignedIn();
+                    allow write: if isSignedIn();
+                     allow update,delete:  if   isOwner(replyId) && isSignedIn();
+
+
+
+                    }
+      
+      }
+      
+      
+      
+      
+      // && request.resource.data.keys().hasOnly(['title', 'media', 'timestamp', 'hashTag', 'mediaType', 'detail', 'user']);
+
+ allow update, delete: if isSignedIn() && isOwner(postId);   
+ 
+ }
+     match /Users/{userId}{
+      allow read : if   isSignedIn();
+      allow write : if   isSignedIn();
+       allow update,delete:  if   isOwner(userId) && isSignedIn();
+    }
+  
+    
+   function isPostOwner(postId) {
+      
+      let userId = get(/databases/$(database)/documents/Posts/$(postId)).data.user.id;
+      return request.auth.uid == userId;
+    }
+    function isOwner(id){
+    let userId=get(/databases/$(database)/documents/Users/$(id)).data.id;
+    return request.auth.uid == userId;
+    
+    }
+
+function isSignedIn(){
+
+    return request.auth !=null;
+
+
